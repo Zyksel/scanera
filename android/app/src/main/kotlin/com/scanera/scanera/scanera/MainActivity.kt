@@ -1,4 +1,4 @@
-package com.scanera.scanera.scanera
+package com.scanera.scanera
 
 import io.flutter.embedding.android.FlutterActivity
 
