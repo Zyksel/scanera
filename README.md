@@ -1,3 +1,9 @@
-# scanera
+# Scanera
 
-Final semester project
+Cross-platform mobile application created with Flutter.
+
+### Final Semester Project topic:
+`Cross-platform mobile application for heterogeneous location data acquisition`
+
+### Flutter version
+`3.3.8`
