@@ -32,7 +32,9 @@ dependencies:
 
 
 dev_dependencies:
+  build_runner: ^2.3.2
   flutter_lints: ^2.0.0
+  injectable_generator: ^1.5.5
   flutter_test:
     sdk: flutter
 
@@ -48,5 +50,5 @@ flutter:
       fonts:
         - asset: assets/fonts/helvetica_neue.otf
           weight: 400
-        - asset: fonts/helvetice_neue_bold.otf
+        - asset: assets/fonts/helvetica_neue_bold.otf
           weight: 700
