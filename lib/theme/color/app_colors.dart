@@ -36,6 +36,7 @@ abstract class AppColors {
 
   static const kPrimaryBlue = Color(0xFF006398);
   static const kPrimary90 = Color(0xFFCDE5FF);
+  static const kPrimary95 = Color(0xFFE7F2FF);
   static const kOnSurfaceVariant = Color(0xFF42474E);
   static const kSurfaceVariant = Color(0xFFDEE3EB);
   static const kError = Color(0xFFBA1A1A);
