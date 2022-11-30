@@ -1,4 +1,79 @@
 {
-  "@@locale": "en",
-  "appName": "Scanera"
+    "@@locale": "en",
+    "appName": "Scanera",
+    "appVersion": "Application version {number}",
+    "@appVersion": {
+      "placeholders": {
+        "number": {
+          "type": "String"
+         }
+      }
+    },
+    "controllerButtonLabelNext": "Next place",
+    "controllerButtonLabelPause": "Pause",
+    "controllerCoordinatesLabel": "Coordinates",
+    "controllerTimeLabel": "Duration",
+    "controllerCoordinates": "X: {x} , Y: {y}",
+    "@controllerCoordinates": {
+      "placeholders": {
+        "x": {
+          "type": "String"
+         },
+        "y": {
+          "type": "String"
+        }
+      }
+    },
+    "controllerTime": "{minutes} min {seconds} sec",
+    "@controllerTime": {
+      "placeholders": {
+        "minutes": {
+          "type": "String"
+        },
+        "seconds": {
+          "type": "String"
+        }
+      }
+    },
+    "appBarBluetooth": "Bluetooth",
+    "appBarWifi": "Wifi",
+    "appBarSensors": "Sensors",
+    "appBarAllScan": "All Scan",
+    "appBarLogs": "Logs",
+    "appBarSettings": "Settings",
+    "appBarConfig": "Configuration",
+    "navBarBluetooth": "Bluetooth",
+    "navBarWifi": "Wifi",
+    "navBarSensors": "Sensors",
+    "navBarAllScan": "All",
+    "homePickConfig": "Pick configuration",
+    "homeStarScan": "and Start the scan!",
+    "dropdownPlaceholder": "Scan configurations",
+    "homeDialogLabel": "Do you want to save the scan results?",
+    "homeDialogOptionFirst": "Abort",
+    "homeDialogOptionSecond": "Save",
+    "homeSnackBarInfo": "To scan nearby devices, make sure that you have enabled Wifi, Bluetooth and localisation in your device options!",
+    "homeBottomSheetOptionFirst": "View configuration files",
+    "homeBottomSheetOptionSecond": "View log files",
+    "homeBottomSheetOptionThird": "Settings",
+    "sensorsModeMagnetometer": "Magnetometer",
+    "sensorsModeAccelerometer": "Accelerometer",
+    "sensorsModeGyroscope": "Gyroscope",
+    "sensorsModeX": "x",
+    "sensorsModeY": "y",
+    "sensorsModeZ": "z",
+    "settingsButtonDeleteLogs": "Delete log files from the device",
+    "settingsButtonChangeLocation": "Change logs saving location",
+    "settingsButtonReport": "Report a problem",
+    "settingsDialogLabel": "Erase files",
+    "settingsDialogContent": "Are you sure that you want to erase all log files from device?",
+    "settingsDialogOptionFirst": "No",
+    "settingsDialogOptionSecond": "Yes",
+    "configButtonAddConfig": "Add new configuration",
+    "configDialogLabel": "New configuration",
+    "configDialogContent": "To add new configuration you need to fill the field in given data format:\nfirst line - configuration name,\nsecond and next lines - coordinates in format [x]:[y],\nRemember about [,] delimeter at the end of each data field!\n\nExample file:\nConfiguration 1,\n0:0, 1:0, 1:0, 2:0, 2:1,",
+    "configDialogContentShrunk": "To add new configuration you need to fill the field...",
+    "configDialogOptionFirst": "Abort",
+    "configDialogOptionSecond": "Save",
+    "configDialogTextFieldPlaceholder": "Configuration 1,\n0:0, 1:0, 1:0, 2:0, 2:1,"
 }
