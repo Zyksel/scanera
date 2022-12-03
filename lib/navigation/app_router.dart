@@ -6,7 +6,6 @@ import 'package:scanera/screen/scan/all_mode/all_mode_screen.dart';
 import 'package:scanera/screen/scan/bluetooth_mode/bluetooth_mode_screen.dart';
 import 'package:scanera/screen/scan/home_screen.dart';
 import 'package:scanera/screen/scan/sensors_mode/sensors_mode_screen.dart';
-import 'package:scanera/screen/scan/wifi_mode/wifi_mode_screen.dart';
 
 @singleton
 class AppRouter {
@@ -29,13 +28,13 @@ class AppRouter {
           return BluetoothModeScreen();
         },
       ),
-      GoRoute(
-        path: '/wifi',
-        name: 'wifi',
-        builder: (BuildContext context, GoRouterState state) {
-          return WifiModeScreen();
-        },
-      ),
+      // GoRoute(
+      //   path: '/wifi',
+      //   name: 'wifi',
+      //   builder: (BuildContext context, GoRouterState state) {
+      //     return WifiModeScreen();
+      //   },
+      // ),
       GoRoute(
         path: '/sensors',
         name: 'sensors',

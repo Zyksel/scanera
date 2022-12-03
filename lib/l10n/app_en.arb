@@ -11,6 +11,7 @@
     },
     "controllerButtonLabelNext": "Next place",
     "controllerButtonLabelPause": "Pause",
+    "controllerButtonLabelResume": "Resume",
     "controllerCoordinatesLabel": "Coordinates",
     "controllerTimeLabel": "Duration",
     "controllerCoordinates": "X: {x} , Y: {y}",
@@ -76,5 +77,6 @@
     "configDialogOptionFirst": "Abort",
     "configDialogOptionSecond": "Save",
     "configDialogTextFieldPlaceholder": "Configuration 1,\n0:0, 1:0, 1:0, 2:0, 2:1,",
-    "errorOngoingScan":"You have ongoing scan! In order to leave you need to end it first."
+    "errorOngoingScan":"You have ongoing scan! In order to leave you need to end it first.",
+    "errorNoMorePlaces": "Configuration file does not contain more places"
 }

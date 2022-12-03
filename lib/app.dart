@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scanera/blocs/signal/signal_bloc.dart';
 import 'package:scanera/ext/context_ext.dart';
-import 'package:scanera/inject/dependency_injection.dart';
-import 'package:scanera/inject/global_provider.dart';
 import 'package:scanera/navigation/app_router.dart';
 import 'package:scanera/theme/app_theme.dart';
 
@@ -9,17 +9,17 @@ class App extends StatelessWidget {
   const App({
     super.key,
     required this.appRouterInstance,
-    required this.dependencyInjection,
   });
 
   final AppRouter appRouterInstance;
-  final DependencyInjection dependencyInjection;
 
   @override
   Widget build(BuildContext context) {
-    return GlobalProvider(
-      dependencyInjection: dependencyInjection,
-      builder: _buildApp,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => SignalBloc()),
+      ],
+      child: _buildApp(context),
     );
   }
 

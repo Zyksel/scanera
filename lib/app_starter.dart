@@ -49,6 +49,5 @@ Future<Widget> _prepareApplication() async {
 
   return App(
     appRouterInstance: router,
-    dependencyInjection: dependencyInjection,
   );
 }
