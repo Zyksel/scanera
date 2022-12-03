@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/screen/scan/all_mode/all_mode_screen.dart';
@@ -9,9 +12,10 @@ import 'package:scanera/screen/scan/empty_scan.dart';
 import 'package:scanera/screen/scan/sensors_mode/sensors_mode_screen.dart';
 import 'package:scanera/screen/scan/wifi_mode/wifi_mode_screen.dart';
 import 'package:scanera/theme/color/app_colors.dart';
-import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/widget/options_bottom_sheet.dart';
 import 'package:scanera/widget/page_app_bar.dart';
+import 'package:scanera/widget/snackBar_message.dart';
+import 'package:wifi_hunter/wifi_hunter_result.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -26,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool _isScanning = false;
   late Widget body;
+  late Timer timer;
+  WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
+  final _snackBar = SnackBarMessage();
 
   @override
   void initState() {
@@ -40,7 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: getAppBarTitle(index: _selectedIndex),
         leftIcon: !_isScanning ? Icons.play_arrow : Icons.stop_circle_outlined,
         rightIcon: !_isScanning ? Icons.more_vert : null,
-        onLeftTap: toggleScan,
+        onLeftTap: () {
+          /// TODO: fix controlling from appBar
+          // !_isScanning ? startScan(interval: kWifiScanInterval) : stopScan();
+          toggleScan();
+        },
         onRightIconTap: openOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -76,7 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
             _selectedIndex = index;
             body = getBody(index: index);
           } else {
-            displaySnackBar(
+            _snackBar.displaySnackBar(
+              context: context,
               message: AppLocalizations.of(context).errorOngoingScan,
             );
           }
@@ -122,15 +134,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget getBody({int index = 0}) {
-    if (!_isScanning) return EmptyScanScreen();
+    if (!_isScanning) return const EmptyScanScreen();
 
     switch (index) {
       case 0:
-        return AllModeScreen();
+        return const AllModeScreen();
       case 1:
-        return SensorsModeScreen();
+        return const SensorsModeScreen();
       case 2:
-        return BluetoothModeScreen();
+        return const BluetoothModeScreen();
       case 3:
         return WifiModeScreen();
       default:
@@ -160,30 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void displaySnackBar({required String message}) {
-    final snackBar = SnackBar(
-      backgroundColor: AppColors.kPrimary95,
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      duration: const Duration(
-        seconds: 10,
-      ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
-      content: Text(
-        message,
-        style: AppTypography().black.bodyLarge,
-      ),
-    );
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  /// TODO: implement stop scan
+  void stopScan() async {
+    timer.cancel();
+    if (kDebugMode) {
+      print('[ℹ️] Wifi scanning ended');
+    }
+    toggleScan();
   }
 }

@@ -1,14 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/theme/color/app_colors.dart';
-import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/widget/config_dropdown.dart';
 import 'package:scanera/widget/dialog/configuration_dialog.dart';
 import 'package:scanera/widget/dialog/info_dialog.dart';
 import 'package:scanera/widget/options_bottom_sheet.dart';
 import 'package:scanera/widget/page_app_bar.dart';
 import 'package:scanera/widget/scan_controller.dart';
+import 'package:scanera/widget/snackBar_message.dart';
 import 'package:scanera/widget/tile/sensor_tile.dart';
 import 'package:scanera/widget/tile/signal_tile.dart';
 
@@ -25,6 +27,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _snackBar = SnackBarMessage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,13 +80,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ScanController(
                   onPressedFirst: () => _showSettingsDialog(),
-                  onPressedSecond: () => displaySnackBar(
-                      AppLocalizations.of(context).homeSnackBarInfo),
-                  time: const Duration(
-                    minutes: 1,
-                    seconds: 32,
+                  onPressedSecond: () => _snackBar.displaySnackBar(
+                    context: context,
+                    message: AppLocalizations.of(context).homeSnackBarInfo,
                   ),
-                  coordinates: const [5, 10],
+                  coordinates: const [
+                    [5, 10]
+                  ],
                 ),
                 const SizedBox(
                   height: 10,
@@ -147,32 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-  }
-
-  void displaySnackBar(String message) {
-    final snackBar = SnackBar(
-      backgroundColor: AppColors.kPrimary95,
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      duration: const Duration(
-        seconds: 10,
-      ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
-      content: Text(
-        message,
-        style: AppTypography().black.bodyLarge,
-      ),
-    );
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Future<bool?> _showSettingsDialog() async {
