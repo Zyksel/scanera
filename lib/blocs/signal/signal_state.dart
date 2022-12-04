@@ -8,16 +8,10 @@ abstract class SignalState extends Equatable {
 }
 
 class SignalLoading extends SignalState {
-  final List<SignalModel> signals;
-
-  const SignalLoading({
-    this.signals = const <SignalModel>[],
-  });
+  const SignalLoading();
 
   @override
-  List<Object> get props => [
-        signals,
-      ];
+  List<Object> get props => [];
 }
 
 class SignalLoaded extends SignalState {

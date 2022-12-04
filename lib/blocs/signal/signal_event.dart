@@ -48,14 +48,15 @@ class AddSignal extends SignalEvent {
 }
 
 class RemoveSignal extends SignalEvent {
-  final SignalModel signalModel;
-
-  const RemoveSignal({
-    required this.signalModel,
-  });
+  const RemoveSignal();
 
   @override
-  List<Object> get props => [
-        signalModel,
-      ];
+  List<Object> get props => [];
+}
+
+class LoadingSignals extends SignalEvent {
+  const LoadingSignals();
+
+  @override
+  List<Object> get props => [];
 }

@@ -32,7 +32,19 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
   @override
   void initState() {
     startScan(interval: kWifiScanInterval);
+    context.read<SignalBloc>().add(
+          const LoadingSignals(),
+        );
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final ctx = context;
+    ctx.read<SignalBloc>().add(
+          const LoadingSignals(),
+        );
+    super.didChangeDependencies();
   }
 
   @override
@@ -51,8 +63,8 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
         child: BlocBuilder<SignalBloc, SignalState>(
           builder: (context, state) {
             if (state is SignalLoading) {
-              return const CircularProgressIndicator(
-                color: Colors.red,
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
             if (state is SignalLoaded) {

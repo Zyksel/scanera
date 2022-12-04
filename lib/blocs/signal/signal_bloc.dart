@@ -12,6 +12,11 @@ class SignalBloc extends Bloc<SignalEvent, SignalState> {
     on<AddSignal>(_onAddSignal);
     on<UpdateSignal>(_onUpdateSignal);
     on<RemoveSignal>(_onRemoveSignal);
+    on<LoadingSignals>(_onLoadingSignals);
+  }
+
+  void _onLoadingSignals(LoadingSignals event, Emitter<SignalState> emit) {
+    emit(const SignalLoading());
   }
 
   void _onLoadSignals(LoadSignals event, Emitter<SignalState> emit) {
@@ -37,5 +42,9 @@ class SignalBloc extends Bloc<SignalEvent, SignalState> {
     }
   }
 
-  void _onRemoveSignal(RemoveSignal event, Emitter<SignalState> emit) {}
+  void _onRemoveSignal(RemoveSignal event, Emitter<SignalState> emit) {
+    emit(
+      const SignalLoaded(signals: []),
+    );
+  }
 }
