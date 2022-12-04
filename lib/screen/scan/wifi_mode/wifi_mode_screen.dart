@@ -115,7 +115,7 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
                 ),
               );
             }
-            return const Text('kuuuuurwaaaa');
+            return const SizedBox.shrink();
           },
         ),
       ),

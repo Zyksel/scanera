@@ -171,13 +171,4 @@ class _HomeScreenState extends State<HomeScreen> {
       body = getBody(index: _selectedIndex);
     });
   }
-
-  /// TODO: implement stop scan
-  void stopScan() async {
-    timer.cancel();
-    if (kDebugMode) {
-      print('[ℹ️] Wifi scanning ended');
-    }
-    toggleScan();
-  }
 }
