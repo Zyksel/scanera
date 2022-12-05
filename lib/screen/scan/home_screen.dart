@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 2:
         return const BluetoothModeScreen();
       case 3:
-        return WifiModeScreen();
+        return const WifiModeScreen();
       default:
         return Container();
     }

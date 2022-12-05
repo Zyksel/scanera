@@ -37,7 +37,9 @@ class SignalBloc extends Bloc<SignalEvent, SignalState> {
     if (state is SignalLoaded) {
       List<SignalModel> signals = event.signalModels;
       emit(
-        SignalLoaded(signals: signals),
+        SignalLoaded(
+          signals: signals.isEmpty ? state.signals : signals,
+        ),
       );
     }
   }
