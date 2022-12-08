@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/screen/scan/all_mode/all_mode_screen.dart';
 import 'package:scanera/screen/scan/bluetooth_mode/bluetooth_mode_screen.dart';
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     body = getBody();
+    grantPermissions();
     super.initState();
   }
 
@@ -197,5 +199,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
     return result;
+  }
+
+  void grantPermissions() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await [
+        Permission.location,
+        Permission.storage,
+      ].request();
+    });
   }
 }
