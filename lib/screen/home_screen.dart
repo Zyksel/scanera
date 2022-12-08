@@ -14,8 +14,8 @@ import 'package:scanera/widget/snackBar_message.dart';
 import 'package:scanera/widget/tile/sensor_tile.dart';
 import 'package:scanera/widget/tile/signal_tile.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     super.key,
     required this.title,
   });
@@ -23,10 +23,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   final _snackBar = SnackBarMessage();
 
   @override

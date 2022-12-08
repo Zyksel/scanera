@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:scanera/screen/logs/logs_screen.dart';
-import 'package:scanera/screen/scan/all_mode/all_mode_screen.dart';
-import 'package:scanera/screen/scan/bluetooth_mode/bluetooth_mode_screen.dart';
 import 'package:scanera/screen/scan/home_screen.dart';
-import 'package:scanera/screen/scan/sensors_mode/sensors_mode_screen.dart';
 
 @singleton
 class AppRouter {
@@ -18,35 +15,7 @@ class AppRouter {
         path: '/home',
         name: 'home',
         builder: (BuildContext context, GoRouterState state) {
-          return HomeScreen();
-        },
-      ),
-      GoRoute(
-        path: '/bluetooth',
-        name: 'bluetooth',
-        builder: (BuildContext context, GoRouterState state) {
-          return BluetoothModeScreen();
-        },
-      ),
-      // GoRoute(
-      //   path: '/wifi',
-      //   name: 'wifi',
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     return WifiModeScreen();
-      //   },
-      // ),
-      GoRoute(
-        path: '/sensors',
-        name: 'sensors',
-        builder: (BuildContext context, GoRouterState state) {
-          return SensorsModeScreen();
-        },
-      ),
-      GoRoute(
-        path: '/all',
-        name: 'all',
-        builder: (BuildContext context, GoRouterState state) {
-          return AllModeScreen();
+          return const HomeScreen();
         },
       ),
       GoRoute(
