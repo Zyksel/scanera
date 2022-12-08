@@ -12,6 +12,7 @@ import 'package:scanera/screen/scan/empty_scan.dart';
 import 'package:scanera/screen/scan/sensors_mode/sensors_mode_screen.dart';
 import 'package:scanera/screen/scan/wifi_mode/wifi_mode_screen.dart';
 import 'package:scanera/theme/color/app_colors.dart';
+import 'package:scanera/widget/dialog/info_dialog.dart';
 import 'package:scanera/widget/options_bottom_sheet.dart';
 import 'package:scanera/widget/page_app_bar.dart';
 import 'package:scanera/widget/snackBar_message.dart';
@@ -47,10 +48,15 @@ class _HomeScreenState extends State<HomeScreen> {
         title: getAppBarTitle(index: _selectedIndex),
         leftIcon: !_isScanning ? Icons.play_arrow : Icons.stop_circle_outlined,
         rightIcon: !_isScanning ? Icons.more_vert : null,
-        onLeftTap: () {
+        onLeftTap: () async {
           /// TODO: fix controlling from appBar
           // !_isScanning ? startScan(interval: kWifiScanInterval) : stopScan();
-          toggleScan();
+          if (_isScanning) {
+            final shouldEnd = await _showEndScanDialog();
+            if (shouldEnd != null) toggleScan();
+          } else {
+            toggleScan();
+          }
         },
         onRightIconTap: openOptions,
       ),
@@ -123,7 +129,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       context: context,
       builder: (BuildContext context) => OptionsBottomSheet(
-        onOptionTap: (int index) => GoRouter.of(context).pushNamed('logs'),
+        onOptionTap: (int index) {
+          switch (index) {
+            case 0:
+              return GoRouter.of(context).pushNamed('config');
+            case 1:
+              return GoRouter.of(context).pushNamed('logs');
+            case 2:
+              return GoRouter.of(context).pushNamed('settings');
+          }
+        },
         options: [
           AppLocalizations.of(context).homeBottomSheetOptionFirst,
           AppLocalizations.of(context).homeBottomSheetOptionSecond,
@@ -170,5 +185,17 @@ class _HomeScreenState extends State<HomeScreen> {
       _isScanning = !_isScanning;
       body = getBody(index: _selectedIndex);
     });
+  }
+
+  Future<bool?> _showEndScanDialog() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (_) => InfoDialog(
+        label: AppLocalizations.of(context).homeDialogLabel,
+        leftOptionTitle: AppLocalizations.of(context).homeDialogOptionFirst,
+        rightOptionTitle: AppLocalizations.of(context).homeDialogOptionSecond,
+      ),
+    );
+    return result;
   }
 }

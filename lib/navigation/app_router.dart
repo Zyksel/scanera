@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:scanera/screen/configuration/configuration_screen.dart';
 import 'package:scanera/screen/logs/logs_screen.dart';
 import 'package:scanera/screen/scan/home_screen.dart';
+import 'package:scanera/screen/settings/settings_screen.dart';
 
 @singleton
 class AppRouter {
@@ -19,10 +21,24 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: '/config',
+        name: 'config',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ConfigScreen();
+        },
+      ),
+      GoRoute(
         path: '/logs',
         name: 'logs',
         builder: (BuildContext context, GoRouterState state) {
-          return LogsScreen();
+          return const LogsScreen();
+        },
+      ),
+      GoRoute(
+        path: '/settings',
+        name: 'settings',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SettingsScreen();
         },
       ),
       // ShellRoute(
