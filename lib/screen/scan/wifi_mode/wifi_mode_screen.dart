@@ -24,7 +24,6 @@ class WifiModeScreen extends StatefulWidget {
 
 class _WifiModeScreenState extends State<WifiModeScreen> {
   bool _isScanning = false;
-  late Widget body;
   late Timer timer;
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
   final _snackBar = SnackBarMessage();

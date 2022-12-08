@@ -104,11 +104,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: const [
                     SensorTile(
                       label: "Magnetometer",
-                      data: [-50, -50, -50],
+                      data: ["-50", "-50", "-50"],
                     ),
                     SensorTile(
                       label: "Accelerometer",
-                      data: [-50, -50, -50],
+                      data: ["-50", "-50", "-50"],
                     ),
                   ],
                 ),

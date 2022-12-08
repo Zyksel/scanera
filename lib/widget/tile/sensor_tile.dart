@@ -11,7 +11,7 @@ class SensorTile extends StatefulWidget {
   }) : super(key: key);
 
   final String label;
-  final List<int> data;
+  final List<String> data;
 
   @override
   State<SensorTile> createState() => _SensorTileState();
@@ -43,15 +43,15 @@ class _SensorTileState extends State<SensorTile> {
             children: [
               _buildColumnData(
                 label: AppLocalizations.of(context).sensorsModeX,
-                data: widget.data[0].toString(),
+                data: widget.data[0].isEmpty ? "0" : widget.data[0],
               ),
               _buildColumnData(
                 label: AppLocalizations.of(context).sensorsModeY,
-                data: widget.data[1].toString(),
+                data: widget.data[1].isEmpty ? "0" : widget.data[1],
               ),
               _buildColumnData(
                 label: AppLocalizations.of(context).sensorsModeZ,
-                data: widget.data[2].toString(),
+                data: widget.data[2].isEmpty ? "0" : widget.data[2],
               ),
             ],
           ),

@@ -90,7 +90,7 @@ class AppTypography extends Equatable {
         displaySmall: TextStyle(
           debugLabel: 'AppTextTheme displaySmall',
           color: color,
-          fontSize: 32.0,
+          fontSize: 18.0,
           fontFamily: kIcelandFamily,
           fontWeight: FontWeight.w400,
           textBaseline: TextBaseline.alphabetic,
@@ -104,7 +104,7 @@ class AppTypography extends Equatable {
           color: color,
           fontSize: 32.0,
           fontFamily: kHelveticaNeueFontFamily,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w400,
           textBaseline: TextBaseline.alphabetic,
           height: calculateHeight(
             fontSize: 32,
