@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:scanera/ext/context_ext.dart';
+import 'package:scanera/manager/files_manager.dart';
+import 'package:scanera/model/config_model.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/util/keyboard_visibility.dart';
@@ -15,6 +18,7 @@ class ConfigDialog extends StatefulWidget {
 
 class _ConfigDialogState extends State<ConfigDialog> {
   final TextEditingController _controller = TextEditingController();
+  final FileManager _fileManager = FileManager();
   bool visible = true;
 
   /// TODO: IMPROVE THIS IMPLEMENTATION
@@ -114,6 +118,9 @@ class _ConfigDialogState extends State<ConfigDialog> {
           TextField(
             maxLines: 5,
             controller: _controller,
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(RegExp(r"\n")),
+            ],
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -164,7 +171,28 @@ class _ConfigDialogState extends State<ConfigDialog> {
   }
 
   void _onSave() {
-    print("Saving!");
+    if (_controller.text.isEmpty) return;
+
+    final configParts = _controller.text.split(',').toList();
+
+    final List<CoordinatesModel> coordinates = [];
+
+    for (int i = 1; i < configParts.length; i++) {
+      coordinates.add(
+        CoordinatesModel(
+          x: configParts[i].substring(0, 1),
+          y: configParts[i].substring(2, 3),
+        ),
+      );
+    }
+
+    _fileManager.saveConfigFile(
+      model: ConfigModel(
+        name: configParts[0],
+        coords: coordinates,
+      ),
+    );
+
     Navigator.of(context).pop();
   }
 

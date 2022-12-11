@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     text: AppLocalizations.of(context).settingsButtonDeleteLogs,
                     isExpanded: true,
                     onPressed: () async {
-                      final result = await _showEraseFilesDialog();
+                      final result = await _showEraseLogFilesDialog();
                       if (result == true) eraseLogFiles();
                     },
                   ),
@@ -75,12 +75,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Button.primary(
                     context: context,
                     text: AppLocalizations.of(context)
-                        .settingsButtonChangeLocation,
+                        .settingsButtonDeleteConfigs,
                     isExpanded: true,
-
-                    /// TODO: replace function
-
-                    onPressed: saveFileTest,
+                    onPressed: () async {
+                      final result = await _showEraseConfigFilesDialog();
+                      if (result == true) eraseConfigFiles();
+                    },
                   ),
                   const SizedBox(
                     height: 32,
@@ -89,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     context: context,
                     text: AppLocalizations.of(context).settingsButtonReport,
                     isExpanded: true,
-                    onPressed: getFilesList,
+                    onPressed: saveFileTest,
                   ),
                 ],
               ),
@@ -100,12 +100,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Future<bool?> _showEraseFilesDialog() async {
+  Future<bool?> _showEraseLogFilesDialog() async {
     final result = await showDialog<bool>(
       context: context,
       builder: (_) => InfoDialog(
         label: AppLocalizations.of(context).settingsDialogLabel,
-        content: AppLocalizations.of(context).settingsDialogContent,
+        content: AppLocalizations.of(context).settingsDialogLogContent,
+        leftOptionTitle: AppLocalizations.of(context).settingsDialogOptionFirst,
+        rightOptionTitle:
+            AppLocalizations.of(context).settingsDialogOptionSecond,
+      ),
+    );
+    return result;
+  }
+
+  Future<bool?> _showEraseConfigFilesDialog() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (_) => InfoDialog(
+        label: AppLocalizations.of(context).settingsDialogLabel,
+        content: AppLocalizations.of(context).settingsDialogConfigContent,
         leftOptionTitle: AppLocalizations.of(context).settingsDialogOptionFirst,
         rightOptionTitle:
             AppLocalizations.of(context).settingsDialogOptionSecond,
@@ -116,6 +130,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> eraseLogFiles() async {
     await _fileManager.clearLogsDirectory();
+  }
+
+  Future<void> eraseConfigFiles() async {
+    await _fileManager.clearConfigDirectory();
   }
 
   /// TODO: move this functions to location where they should be
@@ -130,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final result = await _fileManager.getLogsFiles();
 
     for (var file in result) {
-      print(await _fileManager.readLogContent(file));
+      print(await _fileManager.readFileContent(file));
       print(path.basename(file.path));
     }
   }

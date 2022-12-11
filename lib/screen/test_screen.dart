@@ -158,7 +158,7 @@ class _TestScreenState extends State<TestScreen> {
       context: context,
       builder: (_) => InfoDialog(
         label: AppLocalizations.of(context).settingsDialogLabel,
-        content: AppLocalizations.of(context).settingsDialogContent,
+        content: AppLocalizations.of(context).settingsDialogLogContent,
         rightOptionTitle:
             AppLocalizations.of(context).settingsDialogOptionSecond,
         leftOptionTitle: AppLocalizations.of(context).settingsDialogOptionFirst,
