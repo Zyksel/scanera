@@ -52,7 +52,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                 ),
                 Expanded(
                   child: ListView.separated(
-                    itemCount: state.state.configFiles.length,
+                    itemCount: state.state.configNames.length,
                     itemBuilder: (BuildContext context, int index) {
                       return TextButton(
                         style: TextButton.styleFrom(
@@ -61,14 +61,20 @@ class _ConfigScreenState extends State<ConfigScreen> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            state.state.configFiles[index],
+                            state.state.configNames[index],
                             style: AppTypography().gray.bodyLarge,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         onPressed: () {
-                          GoRouter.of(context).goNamed('config/configDetails');
+                          GoRouter.of(context).pushNamed(
+                            'configDetails',
+                            params: {
+                              "configPath": state.state.configPaths[index],
+                              "configName": state.state.configNames[index],
+                            },
+                          );
                         },
                       );
                     },

@@ -3,7 +3,8 @@ import 'package:path/path.dart' as path;
 import 'package:scanera/manager/files_manager.dart';
 
 class ConfigState {
-  List<String> configFiles = [];
+  List<String> configPaths = [];
+  List<String> configNames = [];
 }
 
 class ConfigController extends ChangeNotifier {
@@ -16,10 +17,13 @@ class ConfigController extends ChangeNotifier {
 
   Future<void> getConfigList() async {
     final result = await _fileManager.getConfigFiles();
-    state.configFiles.clear();
+    state.configPaths.clear();
+    state.configNames.clear();
 
     for (var file in result) {
-      state.configFiles.add(path.basename(file.path));
+      final names = path.basename(file.path).split('_');
+      state.configNames.add(names[1]);
+      state.configPaths.add(path.basename(file.path));
     }
     notifyListeners();
   }

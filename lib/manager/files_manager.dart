@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -13,6 +14,7 @@ class FileManager {
 
   /// both
   Future<String> readFileContent(File file) async {
+    print(file);
     return await file.readAsString();
   }
 
@@ -76,9 +78,7 @@ class FileManager {
     final File file =
         await File('$configsPath/$configFileName').create(recursive: true);
 
-    print(model.toJson().toString());
-
-    await file.writeAsString(model.toJson().toString());
+    await file.writeAsString(jsonEncode(model));
     _logger
         .fine('Configuration $configFileName saved to directory ${file.path}');
   }
@@ -110,5 +110,12 @@ class FileManager {
     }
 
     _logger.fine('Directory $logsDir cleared!');
+  }
+
+  Future<String> readConfigContent(String path) async {
+    final directory = await _logsDirectory;
+    final configFile = File("${directory.path}/configs/$path");
+    print(File("${directory.path}/configs/$path"));
+    return await configFile.readAsString();
   }
 }

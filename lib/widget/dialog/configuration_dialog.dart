@@ -173,7 +173,8 @@ class _ConfigDialogState extends State<ConfigDialog> {
   void _onSave() {
     if (_controller.text.isEmpty) return;
 
-    final configParts = _controller.text.split(',').toList();
+    final configParts =
+        _controller.text.replaceAll(' ', '').split(',').toList();
 
     final List<CoordinatesModel> coordinates = [];
 

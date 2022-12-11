@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:scanera/screen/configuration/configuration_details/configuration_details_screen.dart';
 import 'package:scanera/screen/configuration/configuration_screen.dart';
 import 'package:scanera/screen/logs/logs_screen.dart';
 import 'package:scanera/screen/scan/home_screen.dart';
@@ -25,6 +26,16 @@ class AppRouter {
         name: 'config',
         builder: (BuildContext context, GoRouterState state) {
           return const ConfigScreen();
+        },
+      ),
+      GoRoute(
+        path: '/config/configDetails/:configPath/:configName',
+        name: 'configDetails',
+        builder: (BuildContext context, GoRouterState state) {
+          return ConfigDetailsScreen(
+            configPath: state.params["configPath"]!,
+            configName: state.params["configName"]!,
+          );
         },
       ),
       GoRoute(
