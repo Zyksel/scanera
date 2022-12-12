@@ -67,15 +67,13 @@ class _ConfigScreenState extends State<ConfigScreen> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        onPressed: () {
-                          GoRouter.of(context).pushNamed(
-                            'configDetails',
-                            params: {
-                              "configPath": state.state.configPaths[index],
-                              "configName": state.state.configNames[index],
-                            },
-                          );
-                        },
+                        onPressed: () => GoRouter.of(context).pushNamed(
+                          'configDetails',
+                          params: {
+                            "configPath": state.state.configPaths[index],
+                            "configName": state.state.configNames[index],
+                          },
+                        ),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {

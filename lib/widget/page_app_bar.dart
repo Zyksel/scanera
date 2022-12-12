@@ -48,7 +48,7 @@ class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 InkWell(
                   onTap: onLeftTap,
                   child: SizedBox(
-                    width: 80,
+                    width: rightIcon != null ? 80 : 40,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Icon(
@@ -61,17 +61,21 @@ class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Expanded(
                   child: Center(
-                    child: AutoSizeText(
-                      title,
-                      style: AppTypography().white.titleLarge,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      maxFontSize: 28,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: AutoSizeText(
+                        title,
+                        style: AppTypography().white.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        maxFontSize: 28,
+                        minFontSize: 16,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: 80,
+                  width: rightIcon != null ? 80 : 40,
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: rightIcon != null
@@ -83,7 +87,7 @@ class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
                               color: AppColors.kWhite,
                             ),
                           )
-                        : const SizedBox(),
+                        : const SizedBox.shrink(),
                   ),
                 )
               ],

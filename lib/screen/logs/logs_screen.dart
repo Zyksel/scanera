@@ -31,17 +31,22 @@ class _LogsScreenState extends State<LogsScreen> {
           ),
           child: Consumer<LogsController>(
             builder: (context, state, ___) => ListView.separated(
-              itemCount: state.state.logsFiles.length,
+              itemCount: state.state.logsPaths.length,
               itemBuilder: (BuildContext context, int index) {
                 return TextButton(
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,
                   ),
-                  onPressed: () {},
+                  onPressed: () => GoRouter.of(context).pushNamed(
+                    "logDetails",
+                    params: {
+                      "logPath": state.state.logsPaths[index],
+                    },
+                  ),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      state.state.logsFiles[index],
+                      state.state.logsPaths[index],
                       style: AppTypography().gray.bodyLarge,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

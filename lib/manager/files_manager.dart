@@ -10,20 +10,14 @@ class FileManager {
 
   final _logger = Logger('FileManager');
 
-  Future<Directory> get _logsDirectory => getApplicationSupportDirectory();
-
-  /// both
-  Future<String> readFileContent(File file) async {
-    print(file);
-    return await file.readAsString();
-  }
+  Future<Directory> get _appDirectory => getApplicationSupportDirectory();
 
   /// logs
   Future<void> saveLogFile({
     required String scanType,
     required String data,
   }) async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
     final logsPath = '${directory.path}/logs';
 
     final logFileName =
@@ -37,7 +31,8 @@ class FileManager {
   }
 
   Future<List<File>> getLogsFiles() async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
+    await Directory('${directory.path}/logs').create(recursive: true);
     final logsDir = Directory('${directory.path}/logs');
 
     final files = logsDir.listSync().whereType<File>().toList();
@@ -48,7 +43,7 @@ class FileManager {
   }
 
   Future<void> clearLogsDirectory() async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
     final logsDir = Directory('${directory.path}/logs');
 
     if (!await logsDir.exists()) {
@@ -65,11 +60,18 @@ class FileManager {
     _logger.fine('Directory $logsDir cleared!');
   }
 
+  Future<String> readLogContent(String path) async {
+    final directory = await _appDirectory;
+    final logFile = File("${directory.path}/logs/$path");
+
+    return await logFile.readAsString();
+  }
+
   /// configurations
   Future<void> saveConfigFile({
     required ConfigModel model,
   }) async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
     final configsPath = '${directory.path}/configs';
 
     final configFileName =
@@ -79,12 +81,14 @@ class FileManager {
         await File('$configsPath/$configFileName').create(recursive: true);
 
     await file.writeAsString(jsonEncode(model));
-    _logger
-        .fine('Configuration $configFileName saved to directory ${file.path}');
+    _logger.fine(
+      'Configuration $configFileName saved to directory ${file.path}',
+    );
   }
 
   Future<List<File>> getConfigFiles() async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
+    await Directory('${directory.path}/configs').create(recursive: true);
     final logsDir = Directory('${directory.path}/configs');
 
     final files = logsDir.listSync().whereType<File>().toList();
@@ -95,7 +99,7 @@ class FileManager {
   }
 
   Future<void> clearConfigDirectory() async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
     final logsDir = Directory('${directory.path}/configs');
 
     if (!await logsDir.exists()) {
@@ -113,9 +117,9 @@ class FileManager {
   }
 
   Future<String> readConfigContent(String path) async {
-    final directory = await _logsDirectory;
+    final directory = await _appDirectory;
     final configFile = File("${directory.path}/configs/$path");
-    print(File("${directory.path}/configs/$path"));
+
     return await configFile.readAsString();
   }
 }

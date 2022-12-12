@@ -3,7 +3,7 @@ import 'package:path/path.dart' as path;
 import 'package:scanera/manager/files_manager.dart';
 
 class LogsState {
-  List<String> logsFiles = [];
+  List<String> logsPaths = [];
 }
 
 class LogsController extends ChangeNotifier {
@@ -18,7 +18,7 @@ class LogsController extends ChangeNotifier {
     final result = await _fileManager.getLogsFiles();
 
     for (var file in result) {
-      state.logsFiles.add(path.basename(file.path));
+      state.logsPaths.add(path.basename(file.path));
     }
     notifyListeners();
   }

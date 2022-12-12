@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:scanera/screen/configuration/configuration_details/configuration_details_screen.dart';
 import 'package:scanera/screen/configuration/configuration_screen.dart';
+import 'package:scanera/screen/logs/logs_details/logs_details_screen.dart';
 import 'package:scanera/screen/logs/logs_screen.dart';
 import 'package:scanera/screen/scan/home_screen.dart';
 import 'package:scanera/screen/settings/settings_screen.dart';
@@ -35,6 +36,15 @@ class AppRouter {
           return ConfigDetailsScreen(
             configPath: state.params["configPath"]!,
             configName: state.params["configName"]!,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/logs/logDetails/:logPath',
+        name: 'logDetails',
+        builder: (BuildContext context, GoRouterState state) {
+          return LogDetailsScreen(
+            logPath: state.params["logPath"]!,
           );
         },
       ),

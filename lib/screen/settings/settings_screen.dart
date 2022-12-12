@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart' as path;
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/theme/color/app_colors.dart';
@@ -136,20 +135,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await _fileManager.clearConfigDirectory();
   }
 
-  /// TODO: move this functions to location where they should be
+  /// TODO: move this function to location where they should be
 
   Future<void> saveFileTest() async {
     const String data =
         '{"time": "00:00:01:45","data": [{"type": "bluetooth","time": "00:00:01:45","SSID": "Beacon (1)","BSID": "0a766574-ee7a-4d43-b717-7f51ccad3ff6","signal": "-50"},{"type": "bluetooth","time": "00:00:01:52","SSID": "Beacon (2)","BSID": "0a766574-ee7a-4d43-b717-7f51ccadsad1","signal": "-56"},{"type": "bluetooth","time": "00:00:02:14","SSID": "Beacon (1)","BSID": "0a766574-ee7a-4d43-b717-7f51ccad3ff6","signal": "-52"}]}';
     await _fileManager.saveLogFile(scanType: "bluetooth", data: data);
-  }
-
-  Future<void> getFilesList() async {
-    final result = await _fileManager.getLogsFiles();
-
-    for (var file in result) {
-      print(await _fileManager.readFileContent(file));
-      print(path.basename(file.path));
-    }
   }
 }
