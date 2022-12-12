@@ -86,7 +86,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   Button.primary(
                     context: context,
-                    text: AppLocalizations.of(context).settingsButtonReport,
+                    text: AppLocalizations.of(context).settingsButtonExport,
                     isExpanded: true,
                     onPressed: saveFileTest,
                   ),

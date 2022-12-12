@@ -21,7 +21,7 @@ class FileManager {
     final logsPath = '${directory.path}/logs';
 
     final logFileName =
-        'log_${scanType}_${DateTime.now().toIso8601String()}.json';
+        'log_${scanType}_${DateTime.now().millisecondsSinceEpoch}.json';
 
     final File file =
         await File('$logsPath/$logFileName').create(recursive: true);
@@ -75,7 +75,7 @@ class FileManager {
     final configsPath = '${directory.path}/configs';
 
     final configFileName =
-        'config_${model.name}_${DateTime.now().toIso8601String()}.json';
+        'config_${model.name}_${DateTime.now().millisecondsSinceEpoch}.json';
 
     final File file =
         await File('$configsPath/$configFileName').create(recursive: true);

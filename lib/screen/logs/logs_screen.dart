@@ -43,14 +43,23 @@ class _LogsScreenState extends State<LogsScreen> {
                       "logPath": state.state.logsPaths[index],
                     },
                   ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      state.state.logsPaths[index],
-                      style: AppTypography().gray.bodyLarge,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        state.state.logsPaths[index],
+                        style: AppTypography().gray.bodyLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 4.0),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },

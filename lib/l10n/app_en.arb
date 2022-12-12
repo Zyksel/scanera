@@ -65,7 +65,7 @@
     "sensorsModeZ": "z",
     "settingsButtonDeleteLogs": "Delete log files from the device",
     "settingsButtonDeleteConfigs": "Delete config files from the device",
-    "settingsButtonReport": "Report a problem",
+    "settingsButtonExport": "Export config files",
     "settingsDialogLabel": "Erase files",
     "settingsDialogLogContent": "Are you sure that you want to erase all log files from device?",
     "settingsDialogConfigContent": "Are you sure that you want to erase all configuration files from device?",

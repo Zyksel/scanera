@@ -58,14 +58,23 @@ class _ConfigScreenState extends State<ConfigScreen> {
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                         ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            state.state.configNames[index],
-                            style: AppTypography().gray.bodyLarge,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              state.state.configNames[index],
+                              style: AppTypography().gray.bodyLarge,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 4.0),
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                size: 20,
+                              ),
+                            ),
+                          ],
                         ),
                         onPressed: () => GoRouter.of(context).pushNamed(
                           'configDetails',
