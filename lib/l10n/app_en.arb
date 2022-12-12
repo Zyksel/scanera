@@ -65,12 +65,31 @@
     "sensorsModeZ": "z",
     "settingsButtonDeleteLogs": "Delete log files from the device",
     "settingsButtonDeleteConfigs": "Delete config files from the device",
-    "settingsButtonExport": "Export config files",
+    "settingsButtonExport": "Export log files",
     "settingsDialogLabel": "Erase files",
     "settingsDialogLogContent": "Are you sure that you want to erase all log files from device?",
     "settingsDialogConfigContent": "Are you sure that you want to erase all configuration files from device?",
     "settingsDialogOptionFirst": "No",
     "settingsDialogOptionSecond": "Yes",
+    "settingsSnackBarLogEraseSuccessMessage": "{number} log files deleted!",
+    "@settingsSnackBarLogEraseSuccessMessage": {
+      "placeholders": {
+        "number": {
+          "type": "String"
+         }
+      }
+    },
+    "settingsSnackBarLogEraseNotFoundMessage": "You do not have any log files!",
+    "settingsSnackBarConfigEraseSuccessMessage": "{number} config files deleted!",
+    "@settingsSnackBarConfigEraseSuccessMessage": {
+      "placeholders": {
+        "number": {
+          "type": "String"
+         }
+      }
+    },
+    "settingsSnackBarConfigEraseNotFoundMessage": "You do not have any config files!",
+    "settingsSnackBarFilesEraseErrorMessage": "Unknown error occurred!",
     "configButtonAddConfig": "Add new configuration",
     "configDialogLabel": "New configuration",
     "configDialogContent": "To add new configuration you need to fill the field in given data format:\nfirst field - configuration name,\nnext fields - coordinates in format [x]:[y],\nRemember about [,] delimiter at the end of each data field!\nIt is forbidden to use '_' character in configuration name!\n\nExample file:\nConfiguration 1,0:0, 1:0, 1:0, 2:0, 2:1,",

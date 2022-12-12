@@ -42,12 +42,12 @@ class FileManager {
     return files;
   }
 
-  Future<void> clearLogsDirectory() async {
+  Future<int> clearLogsDirectory() async {
     final directory = await _appDirectory;
     final logsDir = Directory('${directory.path}/logs');
 
     if (!await logsDir.exists()) {
-      return;
+      return -1;
     }
 
     final filesToDelete = logsDir.listSync();
@@ -58,6 +58,7 @@ class FileManager {
     }
 
     _logger.fine('Directory $logsDir cleared!');
+    return filesToDelete.length;
   }
 
   Future<String> readLogContent(String path) async {
@@ -98,12 +99,12 @@ class FileManager {
     return files;
   }
 
-  Future<void> clearConfigDirectory() async {
+  Future<int> clearConfigDirectory() async {
     final directory = await _appDirectory;
     final logsDir = Directory('${directory.path}/configs');
 
     if (!await logsDir.exists()) {
-      return;
+      return -1;
     }
 
     final filesToDelete = logsDir.listSync();
@@ -114,6 +115,8 @@ class FileManager {
     }
 
     _logger.fine('Directory $logsDir cleared!');
+
+    return filesToDelete.length;
   }
 
   Future<String> readConfigContent(String path) async {

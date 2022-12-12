@@ -7,6 +7,7 @@ import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/widget/button.dart';
 import 'package:scanera/widget/dialog/info_dialog.dart';
 import 'package:scanera/widget/page_app_bar.dart';
+import 'package:scanera/widget/snackBar_message.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final FileManager _fileManager = FileManager();
+  final SnackBarMessage _snackBar = SnackBarMessage();
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +130,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> eraseLogFiles() async {
-    await _fileManager.clearLogsDirectory();
+    final deletedFilesNumber = await _fileManager.clearLogsDirectory();
+    if (deletedFilesNumber == -1) {
+      _snackBar.displaySnackBar(
+        context: context,
+        message:
+            AppLocalizations.of(context).settingsSnackBarFilesEraseErrorMessage,
+      );
+    } else if (deletedFilesNumber == 0) {
+      _snackBar.displaySnackBar(
+        context: context,
+        message: AppLocalizations.of(context)
+            .settingsSnackBarLogEraseNotFoundMessage,
+      );
+    } else {
+      _snackBar.displaySnackBar(
+        context: context,
+        message: AppLocalizations.of(context)
+            .settingsSnackBarLogEraseSuccessMessage(
+                deletedFilesNumber.toString()),
+      );
+    }
   }
 
   Future<void> eraseConfigFiles() async {
-    await _fileManager.clearConfigDirectory();
+    final deletedFilesNumber = await _fileManager.clearConfigDirectory();
+
+    if (deletedFilesNumber == -1) {
+      _snackBar.displaySnackBar(
+        context: context,
+        message:
+            AppLocalizations.of(context).settingsSnackBarFilesEraseErrorMessage,
+      );
+    } else if (deletedFilesNumber == 0) {
+      _snackBar.displaySnackBar(
+        context: context,
+        message: AppLocalizations.of(context)
+            .settingsSnackBarConfigEraseNotFoundMessage,
+      );
+    } else {
+      _snackBar.displaySnackBar(
+        context: context,
+        message: AppLocalizations.of(context)
+            .settingsSnackBarConfigEraseSuccessMessage(
+                deletedFilesNumber.toString()),
+      );
+    }
   }
 
   /// TODO: move this function to location where they should be
