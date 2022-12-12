@@ -27,9 +27,7 @@ class _EmptyScanScreenState extends State<EmptyScanScreen> {
               const SizedBox(
                 height: 40,
               ),
-              const ConfigDropdown(
-                data: ["Config 1", "Config 2", "Config 3", "Config 4"],
-              ),
+              const ConfigDropdown(),
               const SizedBox(
                 height: 50,
               ),

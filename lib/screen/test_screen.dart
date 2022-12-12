@@ -115,9 +115,7 @@ class _TestScreenState extends State<TestScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                const ConfigDropdown(
-                  data: ["Config 1", "Config 2", "Config 3"],
-                )
+                const ConfigDropdown()
               ],
             ),
           ),

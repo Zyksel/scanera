@@ -1,23 +1,30 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 import 'package:scanera/ext/context_ext.dart';
+import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
 
 class ConfigDropdown extends StatefulWidget {
   const ConfigDropdown({
     Key? key,
-    required this.data,
   }) : super(key: key);
-
-  final List<String> data;
 
   @override
   State<ConfigDropdown> createState() => _ConfigDropdownState();
 }
 
 class _ConfigDropdownState extends State<ConfigDropdown> {
+  final FileManager _fileManager = FileManager();
+  List<String> _configs = [];
   String? selectedValue;
+
+  @override
+  void initState() {
+    fetchConfigs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,7 @@ class _ConfigDropdownState extends State<ConfigDropdown> {
           AppLocalizations.of(context).dropdownPlaceholder,
           style: AppTypography().gray.bodyLarge,
         ),
-        items: widget.data
+        items: _configs
             .map((item) => DropdownMenuItem<String>(
                 value: item,
                 child: Text(
@@ -72,5 +79,15 @@ class _ConfigDropdownState extends State<ConfigDropdown> {
             .toList(),
       ),
     );
+  }
+
+  Future<void> fetchConfigs() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final configs = await _fileManager.getConfigFiles();
+      for (final file in configs) {
+        final configName = path.basename(file.path).split('_');
+        _configs.add(configName[1]);
+      }
+    });
   }
 }
