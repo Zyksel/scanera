@@ -42,8 +42,11 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     text: AppLocalizations.of(context).configButtonAddConfig,
                     isExpanded: true,
                     onPressed: () async {
-                      _addConfigurationDialog();
-                      await state.getConfigList();
+                      final result = await _addConfigurationDialog();
+                      if (result == true) {
+                        await state.getConfigList();
+                        setState(() {});
+                      }
                     },
                   ),
                 ),
@@ -100,11 +103,12 @@ class _ConfigScreenState extends State<ConfigScreen> {
     );
   }
 
-  Future<void> _addConfigurationDialog() async {
-    final result = await showDialog<void>(
+  Future<bool?> _addConfigurationDialog() async {
+    final result = await showDialog<bool>(
       context: context,
       builder: (_) => const ConfigDialog(),
     );
+
     return result;
   }
 }

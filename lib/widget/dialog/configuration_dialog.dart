@@ -194,11 +194,10 @@ class _ConfigDialogState extends State<ConfigDialog> {
       ),
     );
 
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   void _onAbort() {
-    print("Aborting!");
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(false);
   }
 }
