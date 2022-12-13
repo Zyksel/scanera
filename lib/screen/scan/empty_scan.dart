@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scanera/ext/context_ext.dart';
+import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/widget/config_dropdown.dart';
@@ -27,12 +29,18 @@ class _EmptyScanScreenState extends State<EmptyScanScreen> {
               const SizedBox(
                 height: 40,
               ),
-              const ConfigDropdown(),
+              Consumer<HomeController>(
+                builder: (_, state, ___) => ConfigDropdown(
+                  configs: state.state.configs,
+                ),
+              ),
               const SizedBox(
                 height: 50,
               ),
               IconButton(
-                onPressed: () => print('Start scan!'),
+                onPressed: () =>
+                    Provider.of<HomeController>(context, listen: false)
+                        .toggleScan(),
                 icon: const Icon(
                   Icons.radar_outlined,
                   size: 140,
