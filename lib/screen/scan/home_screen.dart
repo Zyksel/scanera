@@ -26,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Widget body;
-  final _snackBar = SnackBarMessage();
+  final SnackBarMessage _snackBarMessage = SnackBarMessage();
 
   @override
   void initState() {
@@ -36,73 +36,85 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => HomeController(),
-      builder: (context, _) => Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(74),
-          child: Consumer<HomeController>(
-            builder: (_, state, ___) => PageAppBar(
-              title: state.getAppBarTitle(context),
-              leftIcon: !state.state.isScanning
-                  ? Icons.play_arrow
-                  : Icons.stop_circle_outlined,
-              rightIcon: !state.state.isScanning ? Icons.more_vert : null,
-              onLeftTap: () async {
-                if (state.state.isScanning) {
-                  final shouldEnd = await _showEndScanDialog();
-                  if (shouldEnd != null) state.toggleScan();
-                } else {
-                  state.toggleScan();
-                }
-              },
-              onRightIconTap: openOptions,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: ChangeNotifierProvider(
+        create: (_) => HomeController(),
+        builder: (context, _) => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(74),
+            child: Consumer<HomeController>(
+              builder: (_, controller, ___) => PageAppBar(
+                title: controller.getAppBarTitle(context),
+                leftIcon: !controller.state.isScanning
+                    ? Icons.play_arrow
+                    : Icons.stop_circle_outlined,
+                rightIcon:
+                    !controller.state.isScanning ? Icons.more_vert : null,
+                onLeftTap: () async {
+                  if (controller.state.isScanning) {
+                    final shouldEnd = await _showEndScanDialog();
+                    if (shouldEnd != null) controller.toggleScan();
+                  } else {
+                    if (controller.state.chosenConfig == null) {
+                      _snackBarMessage.displaySnackBar(
+                        context: context,
+                        message: AppLocalizations.of(context)
+                            .homeMandatoryPickedConfiguration,
+                      );
+                    } else {
+                      controller.toggleScan();
+                    }
+                  }
+                },
+                onRightIconTap: openOptions,
+              ),
             ),
           ),
-        ),
-        bottomNavigationBar: Consumer<HomeController>(
-          builder: (_, state, ___) => BottomNavigationBar(
-            currentIndex: state.state.selectedIndex,
-            unselectedItemColor: AppColors.kPrimary90,
-            unselectedFontSize: 11,
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            selectedFontSize: 11,
-            selectedItemColor: AppColors.kPrimaryBlue,
-            showUnselectedLabels: true,
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.perm_scan_wifi),
-                label: AppLocalizations.of(context).navBarAllScan,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.edgesensor_high),
-                label: AppLocalizations.of(context).navBarSensors,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.bluetooth),
-                label: AppLocalizations.of(context).navBarBluetooth,
-              ),
-              if (Platform.isAndroid)
+          bottomNavigationBar: Consumer<HomeController>(
+            builder: (_, state, ___) => BottomNavigationBar(
+              currentIndex: state.state.selectedIndex,
+              unselectedItemColor: AppColors.kPrimary90,
+              unselectedFontSize: 11,
+              unselectedLabelStyle:
+                  const TextStyle(fontWeight: FontWeight.bold),
+              selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+              selectedFontSize: 11,
+              selectedItemColor: AppColors.kPrimaryBlue,
+              showUnselectedLabels: true,
+              items: [
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.wifi),
-                  label: AppLocalizations.of(context).navBarWifi,
+                  icon: const Icon(Icons.perm_scan_wifi),
+                  label: AppLocalizations.of(context).navBarAllScan,
                 ),
-            ],
-            onTap: (index) {
-              if (!state.state.isScanning) {
-                state.changeIndex(index);
-                // state.getBody(index: index);
-              } else {
-                _snackBar.displaySnackBar(
-                  context: context,
-                  message: AppLocalizations.of(context).errorOngoingScan,
-                );
-              }
-            },
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.edgesensor_high),
+                  label: AppLocalizations.of(context).navBarSensors,
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.bluetooth),
+                  label: AppLocalizations.of(context).navBarBluetooth,
+                ),
+                if (Platform.isAndroid)
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.wifi),
+                    label: AppLocalizations.of(context).navBarWifi,
+                  ),
+              ],
+              onTap: (index) {
+                if (!state.state.isScanning) {
+                  state.changeIndex(index);
+                } else {
+                  _snackBarMessage.displaySnackBar(
+                    context: context,
+                    message: AppLocalizations.of(context).errorOngoingScan,
+                  );
+                }
+              },
+            ),
           ),
+          body: Provider.of<HomeController>(context, listen: true).getBody(),
         ),
-        body: Provider.of<HomeController>(context, listen: true).getBody(),
       ),
     );
   }

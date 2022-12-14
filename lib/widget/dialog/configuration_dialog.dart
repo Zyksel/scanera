@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/model/config_model.dart';
+import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/util/keyboard_visibility.dart';
@@ -24,20 +26,23 @@ class _ConfigDialogState extends State<ConfigDialog> {
   /// TODO: IMPROVE THIS IMPLEMENTATION
 
   @override
-  Widget build(BuildContext context) {
-    return KeyboardVisibilityBuilder(
-      builder: (context, child, isKeyboardVisible) {
-        if (isKeyboardVisible) {
-          return _dialog2();
-        } else {
-          return _dialog();
-        }
-      },
-      child: Container(),
+  Widget build(BuildContext cxt) {
+    return ChangeNotifierProvider(
+      create: (_) => HomeController(),
+      builder: (context, _) => KeyboardVisibilityBuilder(
+        builder: (context, child, isKeyboardVisible) {
+          if (isKeyboardVisible) {
+            return _dialog2(context);
+          } else {
+            return _dialog(context);
+          }
+        },
+        child: Container(),
+      ),
     );
   }
 
-  Widget _dialog() {
+  Widget _dialog(BuildContext context) {
     return AlertDialog(
       title: Text(
         AppLocalizations.of(context).configDialogLabel,
@@ -93,7 +98,7 @@ class _ConfigDialogState extends State<ConfigDialog> {
           ),
         ),
         TextButton(
-          onPressed: () => _onSave(),
+          onPressed: () => _onSave(context),
           child: Text(
             AppLocalizations.of(context).configDialogOptionSecond,
             style: AppTypography().primary.titleSmall,
@@ -103,7 +108,7 @@ class _ConfigDialogState extends State<ConfigDialog> {
     );
   }
 
-  Widget _dialog2() {
+  Widget _dialog2(BuildContext context) {
     return AlertDialog(
       title: Text(
         AppLocalizations.of(context).configDialogLabel,
@@ -160,7 +165,7 @@ class _ConfigDialogState extends State<ConfigDialog> {
           ),
         ),
         TextButton(
-          onPressed: () => _onSave(),
+          onPressed: () => _onSave(context),
           child: Text(
             AppLocalizations.of(context).configDialogOptionSecond,
             style: AppTypography().primary.titleSmall,
@@ -170,7 +175,7 @@ class _ConfigDialogState extends State<ConfigDialog> {
     );
   }
 
-  void _onSave() {
+  void _onSave(BuildContext context) {
     if (_controller.text.isEmpty) return;
 
     final configParts =
@@ -193,6 +198,8 @@ class _ConfigDialogState extends State<ConfigDialog> {
         coords: coordinates,
       ),
     );
+
+    Provider.of<HomeController>(context, listen: false).fetchConfigs();
 
     Navigator.of(context).pop(true);
   }

@@ -22,80 +22,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PageAppBar(
-        title: AppLocalizations.of(context).appBarSettings,
-        leftIcon: Icons.arrow_back,
-        onLeftTap: () => GoRouter.of(context).pop(),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24.0,
-          vertical: 36.0,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: PageAppBar(
+          title: AppLocalizations.of(context).appBarSettings,
+          leftIcon: Icons.arrow_back,
+          onLeftTap: () => GoRouter.of(context).pushNamed("home"),
         ),
-        child: Column(
-          children: [
-            Container(
-              color: Colors.red,
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            Text(
-              AppLocalizations.of(context).appVersion("1.0.0"),
-              style: AppTypography().gray.labelLarge,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            const Divider(
-              thickness: 1,
-              color: AppColors.kBlack,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 32,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0,
+            vertical: 36.0,
+          ),
+          child: Column(
+            children: [
+              Container(
+                color: Colors.red,
+                width: 200,
+                height: 200,
               ),
-              child: Column(
-                children: [
-                  Button.primary(
-                    context: context,
-                    text: AppLocalizations.of(context).settingsButtonDeleteLogs,
-                    isExpanded: true,
-                    onPressed: () async {
-                      final result = await _showEraseLogFilesDialog();
-                      if (result == true) eraseLogFiles();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Button.primary(
-                    context: context,
-                    text: AppLocalizations.of(context)
-                        .settingsButtonDeleteConfigs,
-                    isExpanded: true,
-                    onPressed: () async {
-                      final result = await _showEraseConfigFilesDialog();
-                      if (result == true) eraseConfigFiles();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Button.primary(
-                    context: context,
-                    text: AppLocalizations.of(context).settingsButtonExport,
-                    isExpanded: true,
-                    onPressed: saveFileTest,
-                  ),
-                ],
+              const SizedBox(
+                height: 32,
               ),
-            ),
-          ],
+              Text(
+                AppLocalizations.of(context).appVersion("1.0.0"),
+                style: AppTypography().gray.labelLarge,
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              const Divider(
+                thickness: 1,
+                color: AppColors.kBlack,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 32,
+                ),
+                child: Column(
+                  children: [
+                    Button.primary(
+                      context: context,
+                      text:
+                          AppLocalizations.of(context).settingsButtonDeleteLogs,
+                      isExpanded: true,
+                      onPressed: () async {
+                        final result = await _showEraseLogFilesDialog();
+                        if (result == true) eraseLogFiles();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    Button.primary(
+                      context: context,
+                      text: AppLocalizations.of(context)
+                          .settingsButtonDeleteConfigs,
+                      isExpanded: true,
+                      onPressed: () async {
+                        final result = await _showEraseConfigFilesDialog();
+                        if (result == true) eraseConfigFiles();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    Button.primary(
+                      context: context,
+                      text: AppLocalizations.of(context).settingsButtonExport,
+                      isExpanded: true,
+                      onPressed: saveFileTest,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -49,6 +49,7 @@
     "navBarAllScan": "All",
     "homePickConfig": "Pick configuration",
     "homeStarScan": "and Start the scan!",
+    "homeMandatoryPickedConfiguration": "To start the scan you need to choose configuration!",
     "dropdownPlaceholder": "Scan configurations",
     "homeDialogLabel": "Do you want to save the scan results?",
     "homeDialogOptionFirst": "Abort",

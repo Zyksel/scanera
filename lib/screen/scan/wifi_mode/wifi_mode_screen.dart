@@ -4,11 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:scanera/blocs/signal/signal_bloc.dart';
 import 'package:scanera/model/signal_model.dart';
+import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/util/contants.dart';
 import 'package:scanera/widget/scan_controller.dart';
-import 'package:scanera/widget/snackBar_message.dart';
 import 'package:scanera/widget/tile/signal_tile.dart';
 import 'package:wifi_hunter/wifi_hunter.dart';
 import 'package:wifi_hunter/wifi_hunter_result.dart';
@@ -26,7 +27,6 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
   bool _isScanning = false;
   late Timer timer;
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
-  final _snackBar = SnackBarMessage();
 
   @override
   void initState() {
@@ -73,18 +73,16 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ScanController(
-                        onPressedFirst: () {},
-                        onPressedSecond: () {
-                          _isScanning
-                              ? resumeScan(interval: kWifiScanInterval)
-                              : stopScan();
-                        },
-                        coordinates: const [
-                          [1, 2],
-                          [2, 3],
-                          [3, 4]
-                        ],
+                      Consumer<HomeController>(
+                        builder: (_, controller, ___) => ScanController(
+                          onPressedFirst: () {},
+                          onPressedSecond: () {
+                            _isScanning
+                                ? resumeScan(interval: kWifiScanInterval)
+                                : stopScan();
+                          },
+                          coordinates: controller.state.coordinates,
+                        ),
                       ),
                       const SizedBox(
                         height: 8,

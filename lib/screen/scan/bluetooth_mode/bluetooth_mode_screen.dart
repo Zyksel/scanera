@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:scanera/blocs/signal/signal_bloc.dart';
 import 'package:scanera/model/signal_model.dart';
+import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/util/contants.dart';
 import 'package:scanera/widget/scan_controller.dart';
 import 'package:scanera/widget/snackBar_message.dart';
@@ -72,18 +74,16 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ScanController(
-                        onPressedFirst: () {},
-                        onPressedSecond: () {
-                          _isScanning
-                              ? resumeScan(interval: kBluetoothScanInterval)
-                              : stopScan();
-                        },
-                        coordinates: const [
-                          [1, 2],
-                          [2, 3],
-                          [3, 4]
-                        ],
+                      Consumer<HomeController>(
+                        builder: (_, controller, ___) => ScanController(
+                          onPressedFirst: () {},
+                          onPressedSecond: () {
+                            _isScanning
+                                ? resumeScan(interval: kBluetoothScanInterval)
+                                : stopScan();
+                          },
+                          coordinates: controller.state.coordinates,
+                        ),
                       ),
                       const SizedBox(
                         height: 8,

@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:json_view/json_view.dart';
 import 'package:provider/provider.dart';
+import 'package:scanera/model/config_storage_model.dart';
 import 'package:scanera/screen/configuration/configuration_details/configuration_details_controller.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/widget/page_app_bar.dart';
 
 class ConfigDetailsScreen extends StatefulWidget {
   const ConfigDetailsScreen({
-    required this.configName,
-    required this.configPath,
+    required this.configStorageModel,
     Key? key,
   }) : super(key: key);
 
-  final String configName;
-  final String configPath;
+  final ConfigStorageModel configStorageModel;
 
   @override
   State<ConfigDetailsScreen> createState() => _ConfigDetailsScreenState();
@@ -25,11 +24,11 @@ class _ConfigDetailsScreenState extends State<ConfigDetailsScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ConfigDetailsController(
-        configName: widget.configPath,
+        configName: widget.configStorageModel.path,
       ),
       builder: (context, child) => Scaffold(
         appBar: PageAppBar(
-          title: widget.configName,
+          title: widget.configStorageModel.name,
           leftIcon: Icons.arrow_back,
           onLeftTap: () => GoRouter.of(context).pop(),
         ),
@@ -39,7 +38,7 @@ class _ConfigDetailsScreenState extends State<ConfigDetailsScreen> {
             vertical: 16.0,
           ),
           child: Consumer<ConfigDetailsController>(
-            builder: (context, state, ___) => JsonConfig(
+            builder: (context, controller, ___) => JsonConfig(
               data: JsonConfigData(
                 gap: 100,
                 style: const JsonStyleScheme(
@@ -53,7 +52,7 @@ class _ConfigDetailsScreenState extends State<ConfigDetailsScreen> {
                 ),
               ),
               child: JsonView(
-                json: state.state.jsonConfig,
+                json: controller.state.jsonConfig,
               ),
             ),
           ),

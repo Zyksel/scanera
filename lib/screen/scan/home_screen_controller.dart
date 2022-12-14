@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:scanera/ext/context_ext.dart';
@@ -13,7 +15,7 @@ class HomeState {
   bool isScanning = false;
   int selectedIndex = 0;
   String? chosenConfig;
-  List<String> configs = [];
+  List<ConfigStorageModel> configs = [];
   List<List<int>> coordinates = [];
 }
 
@@ -25,14 +27,12 @@ class HomeController extends ChangeNotifier {
     fetchConfigs();
   }
 
-  void chooseConfig(String config) {
-    state.chosenConfig = config;
-    print(state.chosenConfig);
+  void refresh() {
     notifyListeners();
   }
 
-  void addConfigs(List<String> data) {
-    state.configs = data;
+  void chooseConfig(String config) {
+    state.chosenConfig = config;
     notifyListeners();
   }
 
@@ -43,7 +43,11 @@ class HomeController extends ChangeNotifier {
 
   void toggleScan() {
     state.isScanning = !state.isScanning;
-    notifyListeners();
+    if (state.chosenConfig == null) {
+      print('brak configu');
+    } else {
+      notifyListeners();
+    }
   }
 
   Widget getBody() {
@@ -80,22 +84,34 @@ class HomeController extends ChangeNotifier {
 
   Future<void> fetchConfigs() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      state.configs = [];
       final configs = await _fileManager.getConfigFiles();
       for (final file in configs) {
         final configName = path.basename(file.path).split('_');
-        state.configs.add(configName[1]);
+        state.configs.add(
+          ConfigStorageModel(
+            name: configName[1],
+            path: path.basename(file.path),
+          ),
+        );
       }
+      print(state.configs);
+      notifyListeners();
     });
-    notifyListeners();
   }
 
-  Future<void> getScanConfig(String config) async {
-    final configString = await _fileManager.readConfigContent(config);
-    // for (var file in result) {
-    //   final names = path.basename(file.path).split('_');
-    //   state.configNames.add(names[1]);
-    //   state.configPaths.add(path.basename(file.path));
-    // }
-    final model = ConfigStorageModel(name: "name", path: "asdasd/asd/asd/");
+  Future<void> getScanConfig(ConfigStorageModel model) async {
+    state.coordinates.clear();
+    final configString = await _fileManager.readConfigContent(model.path);
+
+    final coords = jsonDecode(configString);
+
+    for (final data in coords["coords"]) {
+      state.coordinates.add([
+        int.parse(data["x"]),
+        int.parse(data["y"]),
+      ]);
+    }
+    notifyListeners();
   }
 }

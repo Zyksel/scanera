@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scanera/ext/context_ext.dart';
+import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/widget/scan_controller.dart';
 import 'package:scanera/widget/tile/sensor_tile.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -64,16 +66,14 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ScanController(
-            onPressedFirst: () {},
-            onPressedSecond: () {
-              _isScanning ? stopScan() : resumeScan();
-            },
-            coordinates: const [
-              [1, 2],
-              [2, 3],
-              [3, 4]
-            ],
+          Consumer<HomeController>(
+            builder: (_, controller, ___) => ScanController(
+              onPressedFirst: () {},
+              onPressedSecond: () {
+                _isScanning ? stopScan() : resumeScan();
+              },
+              coordinates: controller.state.coordinates,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),

@@ -18,84 +18,84 @@ class ConfigScreen extends StatefulWidget {
 class _ConfigScreenState extends State<ConfigScreen> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ConfigController(),
-      builder: (context, child) => Scaffold(
-        appBar: PageAppBar(
-          title: AppLocalizations.of(context).appBarConfig,
-          leftIcon: Icons.arrow_back,
-          onLeftTap: () => GoRouter.of(context).pop(),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 18.0,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: ChangeNotifierProvider(
+        create: (_) => ConfigController(),
+        builder: (context, child) => Scaffold(
+          appBar: PageAppBar(
+            title: AppLocalizations.of(context).appBarConfig,
+            leftIcon: Icons.arrow_back,
+            onLeftTap: () => GoRouter.of(context).pushNamed("home"),
           ),
-          child: Consumer<ConfigController>(
-            builder: (context, state, ___) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: Button.primary(
-                    context: context,
-                    text: AppLocalizations.of(context).configButtonAddConfig,
-                    isExpanded: true,
-                    onPressed: () async {
-                      final result = await _addConfigurationDialog();
-                      if (result == true) {
-                        await state.getConfigList();
-                        setState(() {});
-                      }
-                    },
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 18.0,
+            ),
+            child: Consumer<ConfigController>(
+              builder: (context, controller, ___) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: Button.primary(
+                      context: context,
+                      text: AppLocalizations.of(context).configButtonAddConfig,
+                      isExpanded: true,
+                      onPressed: () async {
+                        final result = await _addConfigurationDialog();
+                        if (result == true) {
+                          await controller.getConfigList();
+                          setState(() {});
+                        }
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 36,
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: state.state.configNames.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              state.state.configNames[index],
-                              style: AppTypography().gray.bodyLarge,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(bottom: 4.0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                size: 20,
+                  const SizedBox(
+                    height: 36,
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: controller.state.configStorageModel.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                controller.state.configStorageModel[index].name,
+                                style: AppTypography().gray.bodyLarge,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () => GoRouter.of(context).pushNamed(
-                          'configDetails',
-                          params: {
-                            "configPath": state.state.configPaths[index],
-                            "configName": state.state.configNames[index],
-                          },
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Divider(
-                        thickness: 0.6,
-                      );
-                    },
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 4.0),
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () => GoRouter.of(context).pushNamed(
+                            'configDetails',
+                            extra: controller.state.configStorageModel[index],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          thickness: 0.6,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

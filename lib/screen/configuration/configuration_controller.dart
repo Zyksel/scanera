@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:scanera/manager/files_manager.dart';
+import 'package:scanera/model/config_storage_model.dart';
 
 class ConfigState {
-  List<String> configPaths = [];
-  List<String> configNames = [];
+  List<ConfigStorageModel> configStorageModel = [];
 }
 
 class ConfigController extends ChangeNotifier {
@@ -17,13 +17,16 @@ class ConfigController extends ChangeNotifier {
 
   Future<void> getConfigList() async {
     final result = await _fileManager.getConfigFiles();
-    state.configPaths.clear();
-    state.configNames.clear();
+    state.configStorageModel.clear();
 
     for (var file in result) {
       final names = path.basename(file.path).split('_');
-      state.configNames.add(names[1]);
-      state.configPaths.add(path.basename(file.path));
+      state.configStorageModel.add(
+        ConfigStorageModel(
+          name: names[1],
+          path: path.basename(file.path),
+        ),
+      );
     }
     notifyListeners();
   }

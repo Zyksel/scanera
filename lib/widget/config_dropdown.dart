@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:scanera/ext/context_ext.dart';
+import 'package:scanera/model/config_storage_model.dart';
 import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
@@ -13,7 +14,7 @@ class ConfigDropdown extends StatefulWidget {
     required this.configs,
   }) : super(key: key);
 
-  final List<String> configs;
+  final List<ConfigStorageModel> configs;
 
   @override
   State<ConfigDropdown> createState() => _ConfigDropdownState();
@@ -29,12 +30,14 @@ class _ConfigDropdownState extends State<ConfigDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => widget.configs.isEmpty
-          ? GoRouter.of(context).pushNamed("config")
-          : null,
-      child: Consumer<HomeController>(
-        builder: (_, state, ___) => DropdownButtonHideUnderline(
+    return Consumer<HomeController>(
+      builder: (_, controller, ___) => GestureDetector(
+        onTap: () {
+          widget.configs.isEmpty
+              ? GoRouter.of(context).pushNamed("config")
+              : null;
+        },
+        child: DropdownButtonHideUnderline(
           child: DropdownButton2(
             buttonPadding: const EdgeInsets.only(
               top: 12,
@@ -65,9 +68,12 @@ class _ConfigDropdownState extends State<ConfigDropdown> {
                 Radius.circular(20),
               ),
             ),
-            value: state.state.chosenConfig,
+            value: controller.state.chosenConfig,
             onChanged: (value) {
-              state.chooseConfig(value as String);
+              controller.chooseConfig(value as String);
+              controller.getScanConfig(controller.state.configs
+                  .where((element) => element.name == value)
+                  .first);
             },
             hint: Text(
               AppLocalizations.of(context).dropdownPlaceholder,
@@ -75,9 +81,9 @@ class _ConfigDropdownState extends State<ConfigDropdown> {
             ),
             items: widget.configs
                 .map((item) => DropdownMenuItem<String>(
-                    value: item,
+                    value: item.name,
                     child: Text(
-                      item,
+                      item.name,
                       style: AppTypography().gray.bodyLarge,
                     )))
                 .toList(),
