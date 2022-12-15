@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
 import 'package:scanera/blocs/signal/signal_bloc.dart';
 import 'package:scanera/model/signal_model.dart';
 import 'package:wifi_hunter/wifi_hunter.dart';
@@ -13,13 +14,14 @@ class ScanWifiManager {
   bool isScanning = false;
   late Timer timer;
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
+  final _logger = Logger('WifiScan');
 
   ScanWifiManager();
 
   void stopScan() async {
     timer.cancel();
     if (kDebugMode) {
-      print('[ℹ️] Wifi scanning stopped');
+      _logger.fine('[ℹ️] Wifi scanning stopped');
     }
     isScanning = !isScanning;
   }
@@ -29,7 +31,7 @@ class ScanWifiManager {
     required Duration interval,
   }) {
     if (kDebugMode) {
-      print(
+      _logger.fine(
         '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
       );
     }
@@ -44,13 +46,13 @@ class ScanWifiManager {
     required Duration interval,
   }) async {
     if (kDebugMode) {
-      print('[ℹ️] Wifi scanning started');
+      _logger.fine('[ℹ️] Wifi scanning started');
     }
 
     await fetchWifi(context: context);
 
     if (kDebugMode) {
-      print(
+      _logger.fine(
         '[ℹ️] Background scanning started with interval ${interval.inSeconds} seconds',
       );
     }
@@ -68,7 +70,7 @@ class ScanWifiManager {
       final List<SignalModel> newSignals = [];
 
       if (kDebugMode) {
-        print(
+        _logger.fine(
           '[📶] Scanner fetched ${wiFiHunterResult.results.length} wifi networks',
         );
       }
@@ -91,7 +93,7 @@ class ScanWifiManager {
       isScanning = !isScanning;
 
       if (kDebugMode) {
-        print('[ℹ️] Fetching failed');
+        _logger.fine('[ℹ️] Fetching failed');
         print(exception.toString());
       }
     }
@@ -110,7 +112,7 @@ class ScanWifiManager {
     }
 
     if (kDebugMode) {
-      print(
+      _logger.fine(
         '[📶] Scanner found ${wiFiHunterResult.results.length} wifi networks',
       );
     }

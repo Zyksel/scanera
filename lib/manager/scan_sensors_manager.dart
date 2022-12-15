@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class ScanSensorsManager {
+  final _logger = Logger('SensorsScan');
+
   int accList = 0;
   int gyroList = 0;
   int magneList = 0;
@@ -79,7 +82,7 @@ class ScanSensorsManager {
       ),
     );
     if (kDebugMode) {
-      print('[ℹ️] Sensors listening started');
+      _logger.fine('[ℹ️] Sensors listening started');
     }
   }
 
@@ -92,7 +95,7 @@ class ScanSensorsManager {
     isScanning = !isScanning;
 
     if (kDebugMode) {
-      print('[ℹ️] Sensors listening stopped');
+      _logger.fine('[ℹ️] Sensors listening stopped');
     }
   }
 
@@ -119,7 +122,7 @@ class ScanSensorsManager {
     _streamSubscriptions = [];
 
     if (kDebugMode) {
-      print('[ℹ️] Sensors scan end');
+      _logger.fine('[ℹ️] Sensors scan end');
     }
   }
 }
