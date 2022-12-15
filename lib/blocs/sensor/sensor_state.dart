@@ -1,11 +1,17 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:scanera/model/sensor_model.dart';
 
 @immutable
-abstract class SensorState {}
+abstract class SensorState extends Equatable {
+  const SensorState();
+
+  @override
+  List<Object> get props => [];
+}
 
 class SensorsLoading extends SensorState {
-  SensorsLoading();
+  const SensorsLoading();
 
   @override
   List<Object> get props => [];
@@ -14,7 +20,7 @@ class SensorsLoading extends SensorState {
 class SensorsLoaded extends SensorState {
   final List<SensorModel> sensors;
 
-  SensorsLoaded({
+  const SensorsLoaded({
     this.sensors = const <SensorModel>[],
   });
 

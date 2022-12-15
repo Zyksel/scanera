@@ -95,7 +95,6 @@ class HomeController extends ChangeNotifier {
           ),
         );
       }
-      print(state.configs);
       notifyListeners();
     });
   }

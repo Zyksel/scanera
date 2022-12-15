@@ -12,7 +12,6 @@ import 'package:scanera/screen/settings/settings_screen.dart';
 @singleton
 class AppRouter {
   final router = GoRouter(
-    debugLogDiagnostics: true,
     initialLocation: '/home',
     restorationScopeId: 'root_navigator',
     routes: [
