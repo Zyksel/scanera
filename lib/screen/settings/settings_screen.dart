@@ -37,10 +37,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           child: Column(
             children: [
-              Container(
-                color: Colors.red,
-                width: 200,
-                height: 200,
+              Image.asset(
+                'assets/images/scanera_logo_full.png',
+                width: 220,
+                height: 220,
               ),
               const SizedBox(
                 height: 32,
@@ -50,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: AppTypography().gray.labelLarge,
               ),
               const SizedBox(
-                height: 32,
+                height: 16,
               ),
               const Divider(
                 thickness: 1,
