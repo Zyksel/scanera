@@ -9,13 +9,11 @@ import 'package:scanera/widget/snackBar_message.dart';
 
 class ScanController extends StatefulWidget {
   const ScanController({
-    required this.onPressedFirst,
     required this.onPressedSecond,
     required this.coordinates,
     Key? key,
   }) : super(key: key);
 
-  final VoidCallback? onPressedFirst;
   final VoidCallback onPressedSecond;
   final List<List<int>> coordinates;
 

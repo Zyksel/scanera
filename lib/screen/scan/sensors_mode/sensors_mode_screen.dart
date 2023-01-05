@@ -50,7 +50,6 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
           children: [
             Consumer<HomeController>(
               builder: (_, controller, ___) => ScanController(
-                onPressedFirst: () {},
                 onPressedSecond: () {
                   scanController.isScanning
                       ? scanController.stopScan()

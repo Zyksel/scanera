@@ -56,7 +56,6 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
                   children: [
                     Consumer<HomeController>(
                       builder: (_, controller, ___) => ScanController(
-                        onPressedFirst: () {},
                         onPressedSecond: () {
                           scanController.isScanning
                               ? scanController.resumeScan(

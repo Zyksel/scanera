@@ -66,7 +66,6 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
                   children: [
                     Consumer<HomeController>(
                       builder: (_, controller, ___) => ScanController(
-                        onPressedFirst: () {},
                         onPressedSecond: () {
                           scanController.isScanning
                               ? scanController.resumeScan(

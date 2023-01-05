@@ -93,7 +93,6 @@ class _AllModeScreenState extends State<AllModeScreen> {
           children: [
             Consumer<HomeController>(
               builder: (_, controller, ___) => ScanController(
-                onPressedFirst: () {},
                 onPressedSecond: () {
                   isScanning ? stopAllScan() : resumeAllScan();
                 },
