@@ -42,6 +42,15 @@ dev_dependencies:
   injectable_generator: ^1.5.5
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^2.2.16
+  flutter_launcher_icons: ^0.11.0
+
+flutter_native_splash:
+  color: "#1E7DBE"
+  image: assets/images/scanera_logo.png
+  android_12:
+    image: assets/images/scanera_logo.png
+    color: "#1E7DBE"
 
 flutter:
   uses-material-design: true
