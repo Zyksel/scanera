@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/manager/files_manager.dart';
@@ -22,6 +23,7 @@ class HomeState {
 class HomeController extends ChangeNotifier {
   HomeState state = HomeState();
   final FileManager _fileManager = FileManager();
+  final _logger = Logger('HomeController');
 
   HomeController() {
     fetchConfigs();
@@ -44,7 +46,7 @@ class HomeController extends ChangeNotifier {
   void toggleScan() {
     state.isScanning = !state.isScanning;
     if (state.chosenConfig == null) {
-      print('brak configu');
+      _logger.warning('Brak configu');
     } else {
       notifyListeners();
     }

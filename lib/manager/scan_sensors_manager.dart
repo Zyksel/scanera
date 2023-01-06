@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -57,6 +56,8 @@ class ScanSensorsManager {
   void startScan() async {
     isScanning = !isScanning;
 
+    _logger.fine('[ℹ️] Sensors listening started');
+
     _streamSubscriptions.add(
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
@@ -81,9 +82,6 @@ class ScanSensorsManager {
         },
       ),
     );
-    if (kDebugMode) {
-      _logger.fine('[ℹ️] Sensors listening started');
-    }
   }
 
   void stopScan() async {
@@ -94,9 +92,7 @@ class ScanSensorsManager {
 
     isScanning = !isScanning;
 
-    if (kDebugMode) {
-      _logger.fine('[ℹ️] Sensors listening stopped');
-    }
+    _logger.fine('[ℹ️] Sensors listening stopped');
   }
 
   void resumeScan() {
@@ -121,8 +117,6 @@ class ScanSensorsManager {
     }
     _streamSubscriptions = [];
 
-    if (kDebugMode) {
-      _logger.fine('[ℹ️] Sensors scan end');
-    }
+    _logger.fine('[ℹ️] Sensors scan end');
   }
 }

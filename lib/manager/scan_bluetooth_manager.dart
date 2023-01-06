@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -21,21 +20,18 @@ class ScanBluetoothManager {
   void stopScan() async {
     timer.cancel();
     await flutterBlue.stopScan();
-    if (kDebugMode) {
-      _logger.fine('[ℹ️] Bluetooth scanning stopped');
-    }
     isScanning = !isScanning;
+
+    _logger.fine('[ℹ️] Bluetooth scanning stopped');
   }
 
   void resumeScan({
     required BuildContext context,
     required Duration interval,
   }) {
-    if (kDebugMode) {
-      _logger.fine(
-        '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
-      );
-    }
+    _logger.fine(
+      '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
+    );
 
     timer = Timer.periodic(interval, (_) async {
       scanSignals(
@@ -48,11 +44,9 @@ class ScanBluetoothManager {
     required BuildContext context,
     required Duration interval,
   }) async {
-    if (kDebugMode) {
-      _logger.fine(
-        '[ℹ️] Bluetooth scanning started with interval ${interval.inSeconds} seconds',
-      );
-    }
+    _logger.fine(
+      '[ℹ️] Bluetooth scanning started with interval ${interval.inSeconds} seconds',
+    );
 
     timer = Timer.periodic(interval, (_) async {
       scanSignals(
@@ -75,11 +69,10 @@ class ScanBluetoothManager {
     final results =
         await flutterBlue.startScan(timeout: kBluetoothScanPeriodInterval);
 
-    if (kDebugMode) {
-      _logger.fine(
-        '[📶] Scanner fetched ${results.length} bluetooth devices',
-      );
-    }
+    _logger.fine(
+      '[📶] Scanner fetched ${results.length} bluetooth devices',
+    );
+
     final List<SignalModel> newSignals = [];
     for (var i = 0; i < results.length; i++) {
       newSignals.add(

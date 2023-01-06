@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -24,21 +23,19 @@ class ScanWifiManager {
 
   void stopScan() async {
     timer.cancel();
-    if (kDebugMode) {
-      _logger.fine('[ℹ️] Wifi scanning stopped');
-    }
     isScanning = !isScanning;
+
+    _logger.fine('[ℹ️] Wifi scanning stopped');
   }
 
   void resumeScan({
     required BuildContext context,
     required Duration interval,
   }) {
-    if (kDebugMode) {
-      _logger.fine(
-        '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
-      );
-    }
+    _logger.fine(
+      '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
+    );
+
     isScanning = !isScanning;
     timer = Timer.periodic(interval, (_) async {
       await huntWiFis(context: context);
@@ -49,17 +46,14 @@ class ScanWifiManager {
     required BuildContext context,
     required Duration interval,
   }) async {
-    if (kDebugMode) {
-      _logger.fine('[ℹ️] Wifi scanning started');
-    }
+    _logger.fine('[ℹ️] Wifi scanning started');
 
     await fetchWifi(context: context);
 
-    if (kDebugMode) {
-      _logger.fine(
-        '[ℹ️] Background scanning started with interval ${interval.inSeconds} seconds',
-      );
-    }
+    _logger.fine(
+      '[ℹ️] Background scanning started with interval ${interval.inSeconds} seconds',
+    );
+
     timer = Timer.periodic(interval, (_) async {
       await huntWiFis(context: context);
     });
@@ -73,11 +67,9 @@ class ScanWifiManager {
       wiFiHunterResult = (await WiFiHunter.huntWiFiNetworks)!;
       final List<SignalModel> newSignals = [];
 
-      if (kDebugMode) {
-        _logger.fine(
-          '[📶] Scanner fetched ${wiFiHunterResult.results.length} wifi networks',
-        );
-      }
+      _logger.fine(
+        '[📶] Scanner fetched ${wiFiHunterResult.results.length} wifi networks',
+      );
 
       for (var i = 0; i < wiFiHunterResult.results.length; i++) {
         newSignals.add(
@@ -96,10 +88,8 @@ class ScanWifiManager {
     } on PlatformException catch (exception) {
       isScanning = !isScanning;
 
-      if (kDebugMode) {
-        _logger.fine('[ℹ️] Fetching failed');
-        print(exception.toString());
-      }
+      _logger.fine('[ℹ️] Fetching failed');
+      _logger.warning(exception.toString());
     }
   }
 
@@ -110,16 +100,12 @@ class ScanWifiManager {
       wiFiHunterResult = (await WiFiHunter.huntWiFiNetworks)!;
     } on PlatformException catch (exception) {
       isScanning = !isScanning;
-      if (kDebugMode) {
-        print(exception.toString());
-      }
+      _logger.warning(exception.toString());
     }
 
-    if (kDebugMode) {
-      _logger.fine(
-        '[📶] Scanner found ${wiFiHunterResult.results.length} wifi networks',
-      );
-    }
+    _logger.fine(
+      '[📶] Scanner found ${wiFiHunterResult.results.length} wifi networks',
+    );
 
     updateScan(context: context, result: wiFiHunterResult);
   }
