@@ -60,7 +60,8 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
                           scanController.isScanning
                               ? scanController.resumeScan(
                                   context: context,
-                                  interval: kBluetoothScanInterval)
+                                  interval: kBluetoothScanInterval,
+                                )
                               : scanController.stopScan();
                         },
                         coordinates: controller.state.coordinates,
