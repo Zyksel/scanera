@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:logging/logging.dart';
+import 'package:scanera/util/contants.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class ScanSensorsManager {
@@ -23,6 +24,12 @@ class ScanSensorsManager {
 
   bool isScanning = false;
   late Timer timer;
+
+  ScanSensorsManager(
+    this.listener,
+  );
+
+  final Function? listener;
 
   List<String> getAccelerometerValues() {
     return mapValues(
@@ -50,8 +57,6 @@ class ScanSensorsManager {
             v > -0.01 && v < 0.1 ? "0" : v.toStringAsFixed(2).substring(0, 4))
         .toList();
   }
-
-  ScanSensorsManager();
 
   void startScan() async {
     isScanning = !isScanning;
@@ -82,9 +87,19 @@ class ScanSensorsManager {
         },
       ),
     );
+
+    if (listener != null) {
+      timer = Timer.periodic(kSensorsReportInterval, (_) async {
+        sendResults();
+      });
+    }
   }
 
   void stopScan() async {
+    if (listener != null) {
+      timer.cancel();
+    }
+
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
     }
@@ -109,6 +124,14 @@ class ScanSensorsManager {
 
   void updateGyroscopeList(GyroscopeEvent event) {
     gyroscopeValues.add(<double>[event.x, event.y, event.z]);
+  }
+
+  void sendResults() {
+    final magnetometer = getMagnetometerValues();
+    final accelerometer = getAccelerometerValues();
+    final gyroscope = getGyroscopeValues();
+
+    listener!(magnetometer, accelerometer, gyroscope);
   }
 
   void dispose() {

@@ -30,9 +30,9 @@ class _AllModeScreenState extends State<AllModeScreen> {
   @override
   void initState() {
     super.initState();
-    scanControllerSensors = ScanSensorsManager();
-    scanControllerBluetooth = ScanBluetoothManager();
-    scanControllerWifi = ScanWifiManager(receiveSensorsData);
+    scanControllerSensors = ScanSensorsManager(receiveSensorsData);
+    scanControllerBluetooth = ScanBluetoothManager(receiveBluetoothData);
+    scanControllerWifi = ScanWifiManager(receiveWifiData);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       startAllScan();
     });
@@ -44,8 +44,22 @@ class _AllModeScreenState extends State<AllModeScreen> {
     super.dispose();
   }
 
-  void receiveSensorsData(String ssid, String signal) {
+  void receiveWifiData(String ssid, String signal) {
     displayData("[WIFI] $ssid with signal $signal");
+  }
+
+  void receiveBluetoothData(String ssid, String signal) {
+    displayData("[BLE] $ssid with signal $signal");
+  }
+
+  void receiveSensorsData(
+    List<String> accelerometer,
+    List<String> magnetometer,
+    List<String> gyroscope,
+  ) {
+    displayData(
+      "[SENSORS] [ACCELEROMETER] $accelerometer [MAGNETOMETER] $magnetometer [GYROSCOPE] $gyroscope",
+    );
   }
 
   void startAllScan() {

@@ -19,7 +19,7 @@ class BluetoothModeScreen extends StatefulWidget {
 }
 
 class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
-  final ScanBluetoothManager scanController = ScanBluetoothManager();
+  final ScanBluetoothManager scanController = ScanBluetoothManager(null);
 
   @override
   void initState() {

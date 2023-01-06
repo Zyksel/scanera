@@ -15,7 +15,11 @@ class ScanBluetoothManager {
   late Future<List<List<ScanResult>>> results;
   final _logger = Logger('BluetoothScan');
 
-  ScanBluetoothManager();
+  ScanBluetoothManager(
+    this.listener,
+  );
+
+  final Function? listener;
 
   void stopScan() async {
     timer.cancel();
@@ -83,6 +87,15 @@ class ScanBluetoothManager {
           level: results[i].rssi,
         ),
       );
+
+      if (listener != null) {
+        listener!(
+          results[i].device.name == ""
+              ? "Unkown"
+              : results[i].device.name.toString(),
+          results[i].rssi.toString(),
+        );
+      }
     }
 
     context.read<SignalBloc>().add(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scanera/ext/context_ext.dart';
@@ -20,7 +19,7 @@ class SensorsModeScreen extends StatefulWidget {
 
 class _SensorsModeScreenState extends State<SensorsModeScreen> {
   late Timer refreshController;
-  ScanSensorsManager scanController = ScanSensorsManager();
+  ScanSensorsManager scanController = ScanSensorsManager(null);
 
   @override
   void initState() {
