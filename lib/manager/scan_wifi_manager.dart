@@ -16,7 +16,11 @@ class ScanWifiManager {
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
   final _logger = Logger('WifiScan');
 
-  ScanWifiManager();
+  ScanWifiManager(
+    this.listener,
+  );
+
+  final Function? listener;
 
   void stopScan() async {
     timer.cancel();
@@ -133,6 +137,12 @@ class ScanWifiManager {
           level: result.results[i].level,
         ),
       );
+      if (listener != null) {
+        listener!(
+          wiFiHunterResult.results[i].SSID.toString(),
+          wiFiHunterResult.results[i].level.toString(),
+        );
+      }
     }
     context.read<SignalBloc>().add(
           UpdateSignal(

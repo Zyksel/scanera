@@ -19,7 +19,7 @@ class WifiModeScreen extends StatefulWidget {
 }
 
 class _WifiModeScreenState extends State<WifiModeScreen> {
-  ScanWifiManager scanController = ScanWifiManager();
+  ScanWifiManager scanController = ScanWifiManager(null);
 
   @override
   void initState() {

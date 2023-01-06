@@ -17,9 +17,9 @@ class AllModeScreen extends StatefulWidget {
 }
 
 class _AllModeScreenState extends State<AllModeScreen> {
-  ScanSensorsManager scanControllerSensors = ScanSensorsManager();
-  ScanBluetoothManager scanControllerBluetooth = ScanBluetoothManager();
-  ScanWifiManager scanControllerWifi = ScanWifiManager();
+  late ScanSensorsManager scanControllerSensors;
+  late ScanBluetoothManager scanControllerBluetooth;
+  late ScanWifiManager scanControllerWifi;
 
   Random random = Random();
   final ScrollController _controller = ScrollController();
@@ -30,6 +30,9 @@ class _AllModeScreenState extends State<AllModeScreen> {
   @override
   void initState() {
     super.initState();
+    scanControllerSensors = ScanSensorsManager();
+    scanControllerBluetooth = ScanBluetoothManager();
+    scanControllerWifi = ScanWifiManager(receiveSensorsData);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       startAllScan();
     });
@@ -39,6 +42,10 @@ class _AllModeScreenState extends State<AllModeScreen> {
   void dispose() {
     stopAllScan();
     super.dispose();
+  }
+
+  void receiveSensorsData(String ssid, String signal) {
+    displayData("[WIFI] $ssid with signal $signal");
   }
 
   void startAllScan() {
@@ -78,7 +85,8 @@ class _AllModeScreenState extends State<AllModeScreen> {
   }
 
   void displayData(String data) {
-    logs.add(data);
+    final DateTime now = DateTime.now();
+    logs.add("[${now.hour}:${now.minute}:${now.second}] $data");
     setState(() {});
     _controller.jumpTo(_controller.position.maxScrollExtent + 10);
   }
