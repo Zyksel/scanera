@@ -33,6 +33,8 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
 
   @override
   void dispose() {
+    /// todo: how to access homecontroller provider values here?
+    scanController.saveBluetoothScan();
     scanController.stopScan();
     super.dispose();
   }

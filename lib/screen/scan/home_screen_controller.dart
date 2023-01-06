@@ -14,6 +14,7 @@ import 'package:scanera/screen/scan/wifi_mode/wifi_mode_screen.dart';
 
 class HomeState {
   bool isScanning = false;
+  bool shouldSaveScanResults = false;
   int selectedIndex = 0;
   String? chosenConfig;
   List<ConfigStorageModel> configs = [];
@@ -42,6 +43,12 @@ class HomeController extends ChangeNotifier {
     state.selectedIndex = index;
     notifyListeners();
   }
+
+  void saveResult(bool result) {
+    state.shouldSaveScanResults = result;
+  }
+
+  bool get shouldSave => state.shouldSaveScanResults;
 
   void toggleScan() {
     state.isScanning = !state.isScanning;

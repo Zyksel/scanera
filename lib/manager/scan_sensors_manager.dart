@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:logging/logging.dart';
+import 'package:scanera/manager/files_manager.dart';
+import 'package:scanera/model/log_sensor_model.dart';
 import 'package:scanera/util/contants.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -21,6 +24,10 @@ class ScanSensorsManager {
 
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
+
+  List<SensorDataModel> scanResults = [];
+
+  final FileManager _fileManager = FileManager();
 
   bool isScanning = false;
   late Timer timer;
@@ -92,6 +99,10 @@ class ScanSensorsManager {
       timer = Timer.periodic(kSensorsReportInterval, (_) async {
         sendResults();
       });
+    } else {
+      timer = Timer.periodic(kSensorsReportInterval, (_) async {
+        saveScanResults();
+      });
     }
   }
 
@@ -141,5 +152,49 @@ class ScanSensorsManager {
     _streamSubscriptions = [];
 
     _logger.fine('[ℹ️] Sensors scan end');
+  }
+
+  void saveScanResults() {
+    final now = DateTime.now();
+
+    scanResults.add(
+      SensorDataModel(
+        type: "magnetomer",
+        time: now.toString(),
+        x: _magnetometerValues[0].toString(),
+        y: _magnetometerValues[1].toString(),
+        z: _magnetometerValues[2].toString(),
+      ),
+    );
+
+    scanResults.add(
+      SensorDataModel(
+        type: "accelerometer",
+        time: now.toString(),
+        x: _accelerometerValues[0].toString(),
+        y: _accelerometerValues[1].toString(),
+        z: _accelerometerValues[2].toString(),
+      ),
+    );
+
+    scanResults.add(
+      SensorDataModel(
+        type: "gyroscope",
+        time: now.toString(),
+        x: _gyroscopeValues[0].toString(),
+        y: _gyroscopeValues[1].toString(),
+        z: _gyroscopeValues[2].toString(),
+      ),
+    );
+  }
+
+  void saveSensorsScan() {
+    _fileManager.saveLogFile(
+      scanType: "sensors",
+      data: jsonEncode(LogSensorModel(
+        time: DateTime.now().toString(),
+        data: scanResults,
+      )),
+    );
   }
 }

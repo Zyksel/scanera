@@ -96,6 +96,7 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
   @override
   void dispose() {
     super.dispose();
+    scanController.saveSensorsScan();
     scanController.dispose();
     refreshController.cancel();
   }

@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:scanera/blocs/signal/signal_bloc.dart';
+import 'package:scanera/manager/files_manager.dart';
+import 'package:scanera/model/log_signal_model.dart';
 import 'package:scanera/model/signal_model.dart';
 import 'package:wifi_hunter/wifi_hunter.dart';
 import 'package:wifi_hunter/wifi_hunter_result.dart';
@@ -13,7 +16,9 @@ class ScanWifiManager {
   bool isScanning = false;
   late Timer timer;
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
+  List<SignalDataModel> scanResults = [];
   final _logger = Logger('WifiScan');
+  final FileManager _fileManager = FileManager();
 
   ScanWifiManager(
     this.listener,
@@ -123,6 +128,16 @@ class ScanWifiManager {
           level: result.results[i].level,
         ),
       );
+
+      final logSignal = SignalDataModel(
+        type: "wifi",
+        time: DateTime.now().toString(),
+        SSID: result.results[i].SSID,
+        BSID: result.results[i].BSSID,
+        signal: result.results[i].level.toString(),
+      );
+
+      scanResults.add(logSignal);
       if (listener != null) {
         listener!(
           wiFiHunterResult.results[i].SSID.toString(),
@@ -135,5 +150,15 @@ class ScanWifiManager {
             signalModels: newSignals,
           ),
         );
+  }
+
+  void saveWifiScan() {
+    _fileManager.saveLogFile(
+      scanType: "wifi",
+      data: jsonEncode(LogSignalModel(
+        time: DateTime.now().toString(),
+        data: scanResults,
+      )),
+    );
   }
 }

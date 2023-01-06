@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onLeftTap: () async {
                   if (controller.state.isScanning) {
                     final shouldEnd = await _showEndScanDialog();
+                    controller.saveResult(shouldEnd ?? false);
                     if (shouldEnd != null) controller.toggleScan();
                   } else {
                     if (controller.state.chosenConfig == null) {

@@ -44,6 +44,8 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
 
   @override
   void dispose() {
+    scanController.saveWifiScan();
+    scanController.stopScan();
     super.dispose();
   }
 
