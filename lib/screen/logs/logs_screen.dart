@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/screen/logs/logs_controller.dart';
 import 'package:scanera/theme/text/app_typography.dart';
+import 'package:scanera/widget/empty_files_placeholder.dart';
 import 'package:scanera/widget/page_app_bar.dart';
 
 class LogsScreen extends StatefulWidget {
@@ -24,14 +25,22 @@ class _LogsScreenState extends State<LogsScreen> {
           leftIcon: Icons.arrow_back,
           onLeftTap: () => GoRouter.of(context).pop(),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 36.0,
-          ),
-          child: Consumer<LogsController>(
-            builder: (context, state, ___) => ListView.separated(
-              itemCount: state.state.logsPaths.length,
+        body: Consumer<LogsController>(
+          builder: (context, controller, ___) {
+            if (controller.state.logsPaths.isEmpty) {
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: EmptyFilesPlaceholder(
+                  text: context.strings.emptyConfigsPlaceholderText,
+                ),
+              );
+            }
+            return ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 36.0,
+              ),
+              itemCount: controller.state.logsPaths.length,
               itemBuilder: (BuildContext context, int index) {
                 return TextButton(
                   style: TextButton.styleFrom(
@@ -40,14 +49,14 @@ class _LogsScreenState extends State<LogsScreen> {
                   onPressed: () => GoRouter.of(context).pushNamed(
                     "logDetails",
                     params: {
-                      "logPath": state.state.logsPaths[index],
+                      "logPath": controller.state.logsPaths[index],
                     },
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        state.state.logsPaths[index],
+                        controller.state.logsPaths[index],
                         style: AppTypography().gray.bodyLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -68,8 +77,8 @@ class _LogsScreenState extends State<LogsScreen> {
                   thickness: 0.6,
                 );
               },
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
