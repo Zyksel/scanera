@@ -7,7 +7,7 @@ import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/widget/button.dart';
 import 'package:scanera/widget/dialog/info_dialog.dart';
 import 'package:scanera/widget/page_app_bar.dart';
-import 'package:scanera/widget/snackBar_message.dart';
+import 'package:scanera/widget/snack_bar_message.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -135,6 +135,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> eraseLogFiles() async {
     final deletedFilesNumber = await _fileManager.clearLogsDirectory();
+
+    if (!mounted) {
+      return;
+    }
+
     if (deletedFilesNumber == -1) {
       _snackBar.displaySnackBar(
         context: context,
@@ -159,6 +164,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> eraseConfigFiles() async {
     final deletedFilesNumber = await _fileManager.clearConfigDirectory();
+
+    if (!mounted) {
+      return;
+    }
 
     if (deletedFilesNumber == -1) {
       _snackBar.displaySnackBar(

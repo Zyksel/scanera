@@ -5,7 +5,7 @@ import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/widget/button.dart';
 import 'package:scanera/widget/row_text.dart';
-import 'package:scanera/widget/snackBar_message.dart';
+import 'package:scanera/widget/snack_bar_message.dart';
 
 class ScanController extends StatefulWidget {
   const ScanController({

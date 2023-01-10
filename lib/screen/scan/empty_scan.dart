@@ -5,7 +5,7 @@ import 'package:scanera/screen/scan/home_screen_controller.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
 import 'package:scanera/widget/config_dropdown.dart';
-import 'package:scanera/widget/snackBar_message.dart';
+import 'package:scanera/widget/snack_bar_message.dart';
 
 class EmptyScanScreen extends StatefulWidget {
   const EmptyScanScreen({Key? key}) : super(key: key);

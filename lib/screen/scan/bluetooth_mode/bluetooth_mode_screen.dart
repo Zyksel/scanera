@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +32,7 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
 
   @override
   void dispose() {
-    /// todo: how to access homecontroller provider values here?
+    /// todo: how to access home controller provider values here?
     scanController.saveBluetoothScan();
     scanController.stopScan();
     super.dispose();

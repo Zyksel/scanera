@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +11,7 @@ import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/widget/dialog/info_dialog.dart';
 import 'package:scanera/widget/options_bottom_sheet.dart';
 import 'package:scanera/widget/page_app_bar.dart';
-import 'package:scanera/widget/snackBar_message.dart';
+import 'package:scanera/widget/snack_bar_message.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

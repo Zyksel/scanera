@@ -4,7 +4,7 @@ import 'package:scanera/blocs/sensor/sensor_state.dart';
 import 'package:scanera/model/sensor_model.dart';
 
 class SensorBloc extends Bloc<SensorEvent, SensorState> {
-  SensorBloc() : super(SensorsLoading()) {
+  SensorBloc() : super(const SensorsLoading()) {
     on<LoadSensors>(_onLoadSensors);
     on<AddSensor>(_onAddSensor);
     on<UpdateSensor>(_onUpdateSignal);
@@ -13,7 +13,7 @@ class SensorBloc extends Bloc<SensorEvent, SensorState> {
   }
 
   void _onLoadingSensors(LoadingSensors event, Emitter<SensorState> emit) {
-    emit(SensorsLoading());
+    emit(const SensorsLoading());
   }
 
   void _onLoadSensors(LoadSensors event, Emitter<SensorState> emit) {
@@ -43,7 +43,7 @@ class SensorBloc extends Bloc<SensorEvent, SensorState> {
 
   void _onRemoveSignal(RemoveSensor event, Emitter<SensorState> emit) {
     emit(
-      SensorsLoaded(sensors: []),
+      const SensorsLoaded(sensors: []),
     );
   }
 }

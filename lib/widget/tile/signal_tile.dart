@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';

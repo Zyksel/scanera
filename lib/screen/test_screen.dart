@@ -10,7 +10,7 @@
 // import 'package:scanera/widget/options_bottom_sheet.dart';
 // import 'package:scanera/widget/page_app_bar.dart';
 // import 'package:scanera/widget/scan_controller.dart';
-// import 'package:scanera/widget/snackBar_message.dart';
+// import 'package:scanera/widget/snack_bar_message.dart';
 // import 'package:scanera/widget/tile/sensor_tile.dart';
 // import 'package:scanera/widget/tile/signal_tile.dart';
 //
