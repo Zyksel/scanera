@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onLeftTap: () async {
                   if (controller.state.isScanning) {
                     final shouldEnd = await _showEndScanDialog();
-                    controller.saveResult(shouldEnd ?? false);
+                    controller.saveResult(shouldEnd);
                     if (shouldEnd != null) controller.toggleScan();
                   } else {
                     if (controller.state.chosenConfig == null) {
@@ -166,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
       await [
         Permission.location,
         Permission.storage,
+        Permission.bluetoothScan,
       ].request();
     });
   }
