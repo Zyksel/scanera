@@ -31,7 +31,6 @@ class _AllModeScreenState extends State<AllModeScreen> {
 
   @override
   void dispose() {
-    stopAllScan();
     super.dispose();
   }
 

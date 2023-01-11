@@ -59,7 +59,6 @@ class ScanAllManager extends ChangeNotifier {
   }
 
   void stopAllScan() {
-    logs = [];
     scanSensorsManager.stopScan();
     scanBluetoothManager.stopScan();
     scanWifiManager.stopScan();
@@ -85,15 +84,22 @@ class ScanAllManager extends ChangeNotifier {
     notifier();
   }
 
-  void saveSensorsScan() {
+  void saveSensorsScan(bool result) {
     ///TODO: saving all scan results
-    print('save!');
-    // _fileManager.saveLogFile(
-    //   scanType: "wifi",
-    //   data: jsonEncode(LogSignalModel(
-    //     time: DateTime.now().toString(),
-    //     data: scanResults,
-    //   )),
-    // );
+    ///improve displayData functions inside scan managers to report full data
+    /// and then here depending on these data either log records
+    /// or create objects for saving scan results
+    if (result) {
+      print('save!');
+      print(logs);
+      // _fileManager.saveLogFile(
+      //   scanType: "wifi",
+      //   data: jsonEncode(LogSignalModel(
+      //     time: DateTime.now().toString(),
+      //     data: scanResults,
+      //   )),
+      // );
+    }
+    logs = [];
   }
 }

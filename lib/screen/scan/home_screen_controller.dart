@@ -61,7 +61,7 @@ class HomeController extends ChangeNotifier {
     switch (state.selectedIndex) {
       case 0:
         scanAllManager.stopAllScan();
-        if (result) scanAllManager.saveSensorsScan();
+        scanAllManager.saveSensorsScan(result);
         break;
       case 1:
         scanSensorsController.stopScan();
