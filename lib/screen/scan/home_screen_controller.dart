@@ -5,6 +5,10 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/manager/files_manager.dart';
+import 'package:scanera/manager/scan_all_manager.dart';
+import 'package:scanera/manager/scan_bluetooth_manager.dart';
+import 'package:scanera/manager/scan_sensors_manager.dart';
+import 'package:scanera/manager/scan_wifi_manager.dart';
 import 'package:scanera/model/config_storage_model.dart';
 import 'package:scanera/screen/scan/all_mode/all_mode_screen.dart';
 import 'package:scanera/screen/scan/bluetooth_mode/bluetooth_mode_screen.dart';
@@ -25,6 +29,11 @@ class HomeController extends ChangeNotifier {
   HomeState state = HomeState();
   final FileManager _fileManager = FileManager();
   final _logger = Logger('HomeController');
+  final ScanWifiManager scanWifiController = ScanWifiManager(null);
+  final ScanSensorsManager scanSensorsController = ScanSensorsManager(null);
+  final ScanBluetoothManager scanBluetoothController =
+      ScanBluetoothManager(null);
+  final ScanAllManager scanAllManager = ScanAllManager();
 
   HomeController() {
     fetchConfigs();
@@ -44,8 +53,29 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveResult(bool result) {
-    state.shouldSaveScanResults = result;
+  void saveResult(bool? result) {
+    if (result == null) {
+      return;
+    }
+
+    switch (state.selectedIndex) {
+      case 0:
+        scanAllManager.stopAllScan();
+        if (result) scanAllManager.saveSensorsScan();
+        break;
+      case 1:
+        scanSensorsController.stopScan();
+        if (result) scanSensorsController.saveSensorsScan();
+        break;
+      case 2:
+        scanBluetoothController.stopScan();
+        if (result) scanBluetoothController.saveBluetoothScan();
+        break;
+      case 3:
+        scanWifiController.stopScan();
+        if (result) scanWifiController.saveWifiScan();
+        break;
+    }
   }
 
   bool get shouldSave => state.shouldSaveScanResults;
@@ -64,13 +94,13 @@ class HomeController extends ChangeNotifier {
 
     switch (state.selectedIndex) {
       case 0:
-        return const AllModeScreen();
+        return AllModeScreen(scanAllManager: scanAllManager);
       case 1:
-        return const SensorsModeScreen();
+        return SensorsModeScreen(scanController: scanSensorsController);
       case 2:
-        return const BluetoothModeScreen();
+        return BluetoothModeScreen(scanController: scanBluetoothController);
       case 3:
-        return const WifiModeScreen();
+        return WifiModeScreen(scanController: scanWifiController);
       default:
         return Container();
     }

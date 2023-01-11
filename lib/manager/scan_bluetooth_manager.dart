@@ -28,7 +28,7 @@ class ScanBluetoothManager {
   void stopScan() async {
     timer.cancel();
     await flutterBlue.stopScan();
-    isScanning = !isScanning;
+    isScanning = false;
 
     _logger.fine('[ℹ️] Bluetooth scanning stopped');
   }
@@ -40,6 +40,8 @@ class ScanBluetoothManager {
     _logger.fine(
       '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
     );
+
+    isScanning = true;
 
     timer = Timer.periodic(interval, (_) async {
       scanSignals(
@@ -56,6 +58,8 @@ class ScanBluetoothManager {
       '[ℹ️] Bluetooth scanning started with interval ${interval.inSeconds} seconds',
     );
 
+    isScanning = true;
+
     timer = Timer.periodic(interval, (_) async {
       scanSignals(
         context: context,
@@ -63,6 +67,7 @@ class ScanBluetoothManager {
     });
 
     Future.delayed(interval, () {
+      if (!isScanning) return;
       context.read<SignalBloc>().add(
             const LoadSignals(
               signalModel: [],
@@ -80,6 +85,8 @@ class ScanBluetoothManager {
     _logger.fine(
       '[📶] Scanner fetched ${results.length} bluetooth devices',
     );
+
+    if (!isScanning) return;
 
     final List<SignalModel> newSignals = [];
     for (var i = 0; i < results.length; i++) {

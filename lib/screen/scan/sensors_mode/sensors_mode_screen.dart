@@ -11,7 +11,10 @@ import 'package:scanera/widget/tile/sensor_tile.dart';
 class SensorsModeScreen extends StatefulWidget {
   const SensorsModeScreen({
     Key? key,
+    required this.scanController,
   }) : super(key: key);
+
+  final ScanSensorsManager scanController;
 
   @override
   State<SensorsModeScreen> createState() => _SensorsModeScreenState();
@@ -19,7 +22,6 @@ class SensorsModeScreen extends StatefulWidget {
 
 class _SensorsModeScreenState extends State<SensorsModeScreen> {
   late Timer refreshController;
-  ScanSensorsManager scanController = ScanSensorsManager(null);
 
   @override
   void initState() {
@@ -30,16 +32,16 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
         setState(() {});
       },
     );
-    scanController.startScan();
+    widget.scanController.startScan();
   }
 
   @override
   Widget build(BuildContext context) {
-    final accelerometer = scanController.getAccelerometerValues();
+    final accelerometer = widget.scanController.getAccelerometerValues();
 
-    final gyroscope = scanController.getGyroscopeValues();
+    final gyroscope = widget.scanController.getGyroscopeValues();
 
-    final magnetometer = scanController.getMagnetometerValues();
+    final magnetometer = widget.scanController.getMagnetometerValues();
 
     return Scaffold(
       body: Padding(
@@ -50,9 +52,9 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
             Consumer<HomeController>(
               builder: (_, controller, ___) => ScanController(
                 onPressedSecond: () {
-                  scanController.isScanning
-                      ? scanController.stopScan()
-                      : scanController.resumeScan();
+                  widget.scanController.isScanning
+                      ? widget.scanController.stopScan()
+                      : widget.scanController.resumeScan();
                 },
                 coordinates: controller.state.coordinates,
               ),
@@ -96,8 +98,7 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
   @override
   void dispose() {
     super.dispose();
-    scanController.saveSensorsScan();
-    scanController.dispose();
+    widget.scanController.dispose();
     refreshController.cancel();
   }
 }

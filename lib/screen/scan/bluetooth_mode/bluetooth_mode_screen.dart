@@ -11,30 +11,31 @@ import 'package:scanera/widget/tile/signal_tile.dart';
 class BluetoothModeScreen extends StatefulWidget {
   const BluetoothModeScreen({
     Key? key,
+    required this.scanController,
   }) : super(key: key);
+
+  final ScanBluetoothManager scanController;
 
   @override
   State<BluetoothModeScreen> createState() => _BluetoothModeScreenState();
 }
 
 class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
-  final ScanBluetoothManager scanController = ScanBluetoothManager(null);
-
   @override
   void initState() {
     context.read<SignalBloc>().add(
           const LoadingSignals(),
         );
-    scanController.startScan(
-        context: context, interval: kBluetoothScanInterval);
+    widget.scanController.startScan(
+      context: context,
+      interval: kBluetoothScanInterval,
+    );
     super.initState();
   }
 
   @override
   void dispose() {
-    /// todo: how to access home controller provider values here?
-    scanController.saveBluetoothScan();
-    scanController.stopScan();
+    widget.scanController.stopScan();
     super.dispose();
   }
 
@@ -58,12 +59,12 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
                     Consumer<HomeController>(
                       builder: (_, controller, ___) => ScanController(
                         onPressedSecond: () {
-                          scanController.isScanning
-                              ? scanController.resumeScan(
+                          widget.scanController.isScanning
+                              ? widget.scanController.resumeScan(
                                   context: context,
                                   interval: kBluetoothScanInterval,
                                 )
-                              : scanController.stopScan();
+                              : widget.scanController.stopScan();
                         },
                         coordinates: controller.state.coordinates,
                       ),

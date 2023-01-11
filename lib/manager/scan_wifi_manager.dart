@@ -28,7 +28,7 @@ class ScanWifiManager {
 
   void stopScan() async {
     timer.cancel();
-    isScanning = !isScanning;
+    isScanning = false;
 
     _logger.fine('[ℹ️] Wifi scanning stopped');
   }
@@ -41,7 +41,7 @@ class ScanWifiManager {
       '[ℹ️] Background scanning resumed with interval ${interval.inSeconds} seconds',
     );
 
-    isScanning = !isScanning;
+    isScanning = true;
     timer = Timer.periodic(interval, (_) async {
       await huntWiFis(context: context);
     });
@@ -52,6 +52,7 @@ class ScanWifiManager {
     required Duration interval,
   }) async {
     _logger.fine('[ℹ️] Wifi scanning started');
+    isScanning = true;
 
     await fetchWifi(context: context);
 
@@ -91,7 +92,7 @@ class ScanWifiManager {
             ),
           );
     } on PlatformException catch (exception) {
-      isScanning = !isScanning;
+      isScanning = false;
 
       _logger.fine('[ℹ️] Fetching failed');
       _logger.warning(exception.toString());
@@ -104,9 +105,11 @@ class ScanWifiManager {
     try {
       wiFiHunterResult = (await WiFiHunter.huntWiFiNetworks)!;
     } on PlatformException catch (exception) {
-      isScanning = !isScanning;
+      isScanning = false;
       _logger.warning(exception.toString());
     }
+
+    if (!isScanning) return;
 
     _logger.fine(
       '[📶] Scanner found ${wiFiHunterResult.results.length} wifi networks',

@@ -11,18 +11,19 @@ import 'package:scanera/widget/tile/signal_tile.dart';
 class WifiModeScreen extends StatefulWidget {
   const WifiModeScreen({
     Key? key,
+    required this.scanController,
   }) : super(key: key);
+
+  final ScanWifiManager scanController;
 
   @override
   State<WifiModeScreen> createState() => _WifiModeScreenState();
 }
 
 class _WifiModeScreenState extends State<WifiModeScreen> {
-  ScanWifiManager scanController = ScanWifiManager(null);
-
   @override
   void initState() {
-    scanController.startScan(
+    widget.scanController.startScan(
       context: context,
       interval: kWifiScanInterval,
     );
@@ -43,8 +44,6 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
 
   @override
   void dispose() {
-    scanController.saveWifiScan();
-    scanController.stopScan();
     super.dispose();
   }
 
@@ -68,10 +67,12 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
                     Consumer<HomeController>(
                       builder: (_, controller, ___) => ScanController(
                         onPressedSecond: () {
-                          scanController.isScanning
-                              ? scanController.resumeScan(
-                                  context: context, interval: kWifiScanInterval)
-                              : scanController.stopScan();
+                          widget.scanController.isScanning
+                              ? widget.scanController.resumeScan(
+                                  context: context,
+                                  interval: kWifiScanInterval,
+                                )
+                              : widget.scanController.stopScan();
                         },
                         coordinates: controller.state.coordinates,
                       ),
