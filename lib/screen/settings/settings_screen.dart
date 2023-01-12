@@ -8,6 +8,7 @@ import 'package:scanera/widget/button.dart';
 import 'package:scanera/widget/dialog/info_dialog.dart';
 import 'package:scanera/widget/page_app_bar.dart';
 import 'package:scanera/widget/snack_bar_message.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context: context,
                       text: AppLocalizations.of(context).settingsButtonExport,
                       isExpanded: true,
-                      onPressed: saveFileTest,
+                      onPressed: shareFiles,
                     ),
                   ],
                 ),
@@ -191,11 +192,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  /// TODO: move this function to location where they should be
+  void shareFiles() async {
+    final logFiles = await _fileManager.getLogsFiles();
 
-  Future<void> saveFileTest() async {
-    const String data =
-        '{"time": "00:00:01:45","data": [{"type": "bluetooth","time": "00:00:01:45","SSID": "Beacon (1)","BSID": "0a766574-ee7a-4d43-b717-7f51ccad3ff6","signal": "-50"},{"type": "bluetooth","time": "00:00:01:52","SSID": "Beacon (2)","BSID": "0a766574-ee7a-4d43-b717-7f51ccadsad1","signal": "-56"},{"type": "bluetooth","time": "00:00:02:14","SSID": "Beacon (1)","BSID": "0a766574-ee7a-4d43-b717-7f51ccad3ff6","signal": "-52"}]}';
-    await _fileManager.saveLogFile(scanType: "bluetooth", data: data);
+    List<XFile> files = [];
+
+    for (var element in logFiles) {
+      files.add(XFile(element.path));
+    }
+
+    await Share.shareXFiles(files);
   }
 }
