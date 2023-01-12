@@ -1,3 +1,5 @@
+import 'package:scanera/model/scan_model.dart';
+
 class LogSensorModel {
   final String time;
   final List<SensorDataModel> data;
@@ -17,7 +19,7 @@ class LogSensorModel {
   }
 }
 
-class SensorDataModel {
+class SensorDataModel implements ScanModel {
   final String type;
   final String time;
   final String x;
@@ -32,6 +34,7 @@ class SensorDataModel {
     required this.z,
   });
 
+  @override
   Map<String, dynamic> toJson() => {
         "type": type,
         "time": time,

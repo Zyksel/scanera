@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
-class LogSignalModel {
+import 'package:scanera/model/scan_model.dart';
+
+class LogSignalModel implements ScanModel {
   final String time;
   final List<SignalDataModel> data;
 
@@ -19,7 +21,7 @@ class LogSignalModel {
   }
 }
 
-class SignalDataModel {
+class SignalDataModel implements ScanModel {
   final String type;
   final String time;
   final String SSID;
@@ -34,6 +36,7 @@ class SignalDataModel {
     required this.signal,
   });
 
+  @override
   Map<String, dynamic> toJson() => {
         "type": type,
         "time": time,

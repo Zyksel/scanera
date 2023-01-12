@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/manager/scan_bluetooth_manager.dart';
 import 'package:scanera/manager/scan_sensors_manager.dart';
 import 'package:scanera/manager/scan_wifi_manager.dart';
+import 'package:scanera/model/log_all_scan_model.dart';
+import 'package:scanera/model/log_sensor_model.dart';
+import 'package:scanera/model/log_signal_model.dart';
+import 'package:scanera/model/scan_model.dart';
 import 'package:scanera/util/contants.dart';
 
 class ScanAllManager extends ChangeNotifier {
@@ -13,18 +19,21 @@ class ScanAllManager extends ChangeNotifier {
   }
 
   List<String> logs = [];
+  List<ScanModel> scanResults = [];
   final FileManager _fileManager = FileManager();
   late final ScanBluetoothManager scanBluetoothManager;
   late final ScanWifiManager scanWifiManager;
   late final ScanSensorsManager scanSensorsManager;
   late Function notifier;
 
-  void receiveWifiData(String ssid, String signal) {
-    displayData("[WIFI] $ssid with signal $signal");
+  void receiveWifiData(SignalDataModel model) {
+    displayData("[WIFI] ${model.SSID} with signal ${model.signal}");
+    scanResults.add(model);
   }
 
-  void receiveBluetoothData(String ssid, String signal) {
-    displayData("[BLE] $ssid with signal $signal");
+  void receiveBluetoothData(SignalDataModel model) {
+    displayData("[BLE] ${model.SSID} with signal ${model.signal}");
+    scanResults.add(model);
   }
 
   void receiveSensorsData(
@@ -32,8 +41,40 @@ class ScanAllManager extends ChangeNotifier {
     List<String> magnetometer,
     List<String> gyroscope,
   ) {
+    final now = DateTime.now();
+
     displayData(
       "[SENSORS] [ACCELEROMETER] $accelerometer [MAGNETOMETER] $magnetometer [GYROSCOPE] $gyroscope",
+    );
+
+    scanResults.add(
+      SensorDataModel(
+        type: "accelerometer",
+        time: now.toString(),
+        x: accelerometer[0],
+        y: accelerometer[1],
+        z: accelerometer[2],
+      ),
+    );
+
+    scanResults.add(
+      SensorDataModel(
+        type: "magnetometer",
+        time: now.toString(),
+        x: magnetometer[0],
+        y: magnetometer[1],
+        z: magnetometer[2],
+      ),
+    );
+
+    scanResults.add(
+      SensorDataModel(
+        type: "gyroscope",
+        time: now.toString(),
+        x: gyroscope[0],
+        y: gyroscope[1],
+        z: gyroscope[2],
+      ),
     );
   }
 
@@ -85,21 +126,17 @@ class ScanAllManager extends ChangeNotifier {
   }
 
   void saveSensorsScan(bool result) {
-    ///TODO: saving all scan results
-    ///improve displayData functions inside scan managers to report full data
-    /// and then here depending on these data either log records
-    /// or create objects for saving scan results
     if (result) {
-      print('save!');
-      print(logs);
-      // _fileManager.saveLogFile(
-      //   scanType: "wifi",
-      //   data: jsonEncode(LogSignalModel(
-      //     time: DateTime.now().toString(),
-      //     data: scanResults,
-      //   )),
-      // );
+      _fileManager.saveLogFile(
+        scanType: "all",
+        data: jsonEncode(LogAllScanModel(
+          time: DateTime.now().toString(),
+          data: scanResults,
+        )),
+      );
     }
+
+    scanResults = [];
     logs = [];
   }
 }

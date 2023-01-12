@@ -142,10 +142,7 @@ class ScanWifiManager {
 
       scanResults.add(logSignal);
       if (listener != null) {
-        listener!(
-          wiFiHunterResult.results[i].SSID.toString(),
-          wiFiHunterResult.results[i].level.toString(),
-        );
+        listener!(logSignal);
       }
     }
     context.read<SignalBloc>().add(

@@ -109,12 +109,7 @@ class ScanBluetoothManager {
       scanResults.add(logSignal);
 
       if (listener != null) {
-        listener!(
-          results[i].device.name == ""
-              ? "Unkown"
-              : results[i].device.name.toString(),
-          results[i].rssi.toString(),
-        );
+        listener!(logSignal);
       }
     }
 
