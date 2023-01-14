@@ -29,7 +29,6 @@ class ScanBluetoothManager {
   final Function? listener;
 
   void setCurrentCoordinates(List<int> coords) {
-    print("wbiłem w setowanie");
     currentCoords = "${coords[0]}:${coords[1]}";
     if (currentCoordsIndex != -2) {
       scanResults.add(
@@ -40,7 +39,6 @@ class ScanBluetoothManager {
       );
     }
     currentCoordsIndex += 1;
-    print("setcoord numer: $currentCoordsIndex");
   }
 
   void stopScan() async {
@@ -124,12 +122,10 @@ class ScanBluetoothManager {
         signal: results[i].rssi.toString(),
       );
 
-      print("scan signals numer: $currentCoordsIndex");
-      scanResults[currentCoordsIndex].data.add(logSignal);
-      print("dlugosc scanResults: ${scanResults.length}");
-
       if (listener != null) {
         listener!(logSignal);
+      } else {
+        scanResults[currentCoordsIndex].data.add(logSignal);
       }
     }
 

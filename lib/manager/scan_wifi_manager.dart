@@ -157,10 +157,10 @@ class ScanWifiManager {
         signal: result.results[i].level.toString(),
       );
 
-      scanResults[currentCoordsIndex].data.add(logSignal);
-
       if (listener != null) {
         listener!(logSignal);
+      } else {
+        scanResults[currentCoordsIndex].data.add(logSignal);
       }
     }
     context.read<SignalBloc>().add(
