@@ -8,6 +8,7 @@ import 'package:scanera/manager/scan_wifi_manager.dart';
 import 'package:scanera/model/log_all_scan_model.dart';
 import 'package:scanera/model/log_sensor_model.dart';
 import 'package:scanera/model/log_signal_model.dart';
+import 'package:scanera/util/app_date_formatters.dart';
 import 'package:scanera/util/contants.dart';
 
 class ScanAllManager extends ChangeNotifier {
@@ -62,7 +63,7 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "accelerometer",
-            time: now.toString(),
+            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
             x: accelerometer[0],
             y: accelerometer[1],
             z: accelerometer[2],
@@ -72,7 +73,7 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "magnetometer",
-            time: now.toString(),
+            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
             x: magnetometer[0],
             y: magnetometer[1],
             z: magnetometer[2],
@@ -82,7 +83,7 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "gyroscope",
-            time: now.toString(),
+            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
             x: gyroscope[0],
             y: gyroscope[1],
             z: gyroscope[2],
@@ -132,8 +133,9 @@ class ScanAllManager extends ChangeNotifier {
   }
 
   void displayData(String data) {
-    final DateTime now = DateTime.now();
-    logs.add("[${now.hour}:${now.minute}:${now.second}] $data");
+    logs.add(
+      "[${AppDateFormatters.hourMinuteSecond.format(DateTime.now()).toString()}] $data",
+    );
     notifier();
   }
 
@@ -142,7 +144,9 @@ class ScanAllManager extends ChangeNotifier {
       _fileManager.saveLogFile(
         scanType: "all",
         data: jsonEncode(LogAllScanModel(
-          time: DateTime.now().toString(),
+          time: AppDateFormatters.dayMonthYearWithTime
+              .format(DateTime.now())
+              .toString(),
           data: scanResults,
         )),
       );

@@ -43,8 +43,7 @@ class _LogDetailsScreenState extends State<LogDetailsScreen> {
                 style: const JsonStyleScheme(
                   openAtStart: false,
                   arrow: Icon(Icons.arrow_forward),
-                  // too large depth will cause performance issue
-                  depth: 1,
+                  depth: 2,
                 ),
                 color: const JsonColorScheme(
                   stringColor: AppColors.kBlack,

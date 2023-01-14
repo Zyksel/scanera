@@ -9,6 +9,7 @@ import 'package:scanera/blocs/signal/signal_bloc.dart';
 import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/model/log_signal_model.dart';
 import 'package:scanera/model/signal_model.dart';
+import 'package:scanera/util/app_date_formatters.dart';
 import 'package:wifi_hunter/wifi_hunter.dart';
 import 'package:wifi_hunter/wifi_hunter_result.dart';
 
@@ -143,7 +144,9 @@ class ScanWifiManager {
     for (var i = 0; i < result.results.length; i++) {
       newSignals.add(
         SignalModel(
-          SSID: result.results[i].SSID,
+          SSID: result.results[i].SSID.isEmpty
+              ? "Unknown"
+              : result.results[i].SSID,
           BSSID: result.results[i].BSSID,
           level: result.results[i].level,
         ),
@@ -151,8 +154,11 @@ class ScanWifiManager {
 
       final logSignal = SignalDataModel(
         type: "wifi",
-        time: DateTime.now().toString(),
-        SSID: result.results[i].SSID,
+        time: AppDateFormatters.hourMinuteSecond
+            .format(DateTime.now())
+            .toString(),
+        SSID:
+            result.results[i].SSID.isEmpty ? "Unknown" : result.results[i].SSID,
         BSID: result.results[i].BSSID,
         signal: result.results[i].level.toString(),
       );
@@ -174,7 +180,9 @@ class ScanWifiManager {
     _fileManager.saveLogFile(
       scanType: "wifi",
       data: jsonEncode(LogSignalModel(
-        time: DateTime.now().toString(),
+        time: AppDateFormatters.dayMonthYearWithTime
+            .format(DateTime.now())
+            .toString(),
         data: scanResults,
       )),
     );

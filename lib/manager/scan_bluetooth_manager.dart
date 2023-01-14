@@ -9,6 +9,7 @@ import 'package:scanera/blocs/signal/signal_bloc.dart';
 import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/model/log_signal_model.dart';
 import 'package:scanera/model/signal_model.dart';
+import 'package:scanera/util/app_date_formatters.dart';
 import 'package:scanera/util/contants.dart';
 
 class ScanBluetoothManager {
@@ -116,7 +117,9 @@ class ScanBluetoothManager {
 
       final logSignal = SignalDataModel(
         type: "bluetooth",
-        time: DateTime.now().toString(),
+        time: AppDateFormatters.hourMinuteSecond
+            .format(DateTime.now())
+            .toString(),
         SSID: results[i].device.name == "" ? "Unkown" : results[i].device.name,
         BSID: results[i].device.id.id,
         signal: results[i].rssi.toString(),
@@ -141,7 +144,9 @@ class ScanBluetoothManager {
     _fileManager.saveLogFile(
       scanType: "bluetooth",
       data: jsonEncode(LogSignalModel(
-        time: DateTime.now().toString(),
+        time: AppDateFormatters.dayMonthYearWithTime
+            .format(DateTime.now())
+            .toString(),
         data: scanResults,
       )),
     );

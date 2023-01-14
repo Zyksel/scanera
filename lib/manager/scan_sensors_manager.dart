@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:scanera/manager/files_manager.dart';
 import 'package:scanera/model/log_sensor_model.dart';
+import 'package:scanera/util/app_date_formatters.dart';
 import 'package:scanera/util/contants.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -177,7 +178,7 @@ class ScanSensorsManager {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "magnetomer",
-            time: now.toString(),
+            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
             x: _magnetometerValues[0].toString(),
             y: _magnetometerValues[1].toString(),
             z: _magnetometerValues[2].toString(),
@@ -187,7 +188,7 @@ class ScanSensorsManager {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "accelerometer",
-            time: now.toString(),
+            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
             x: _accelerometerValues[0].toString(),
             y: _accelerometerValues[1].toString(),
             z: _accelerometerValues[2].toString(),
@@ -197,7 +198,7 @@ class ScanSensorsManager {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "gyroscope",
-            time: now.toString(),
+            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
             x: _gyroscopeValues[0].toString(),
             y: _gyroscopeValues[1].toString(),
             z: _gyroscopeValues[2].toString(),
@@ -209,7 +210,9 @@ class ScanSensorsManager {
     _fileManager.saveLogFile(
       scanType: "sensors",
       data: jsonEncode(LogSensorModel(
-        time: DateTime.now().toString(),
+        time: AppDateFormatters.dayMonthYearWithTime
+            .format(DateTime.now())
+            .toString(),
         data: scanResults,
       )),
     );
