@@ -56,6 +56,7 @@ class _SensorsModeScreenState extends State<SensorsModeScreen> {
                       ? widget.scanController.stopScan()
                       : widget.scanController.resumeScan();
                 },
+                passCoordinates: widget.scanController.setCurrentCoordinates,
                 coordinates: controller.state.coordinates,
               ),
             ),

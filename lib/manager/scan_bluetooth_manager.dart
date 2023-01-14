@@ -14,8 +14,11 @@ import 'package:scanera/util/contants.dart';
 class ScanBluetoothManager {
   late Timer timer;
   bool isScanning = false;
+  late String currentCoords;
+
+  int currentCoordsIndex = -2;
   FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
-  List<SignalDataModel> scanResults = [];
+  List<IndexedSignalDataModel> scanResults = [];
   final _logger = Logger('BluetoothScan');
   final FileManager _fileManager = FileManager();
 
@@ -24,6 +27,21 @@ class ScanBluetoothManager {
   );
 
   final Function? listener;
+
+  void setCurrentCoordinates(List<int> coords) {
+    print("wbiłem w setowanie");
+    currentCoords = "${coords[0]}:${coords[1]}";
+    if (currentCoordsIndex != -2) {
+      scanResults.add(
+        IndexedSignalDataModel(
+          coordinates: currentCoords,
+          data: [],
+        ),
+      );
+    }
+    currentCoordsIndex += 1;
+    print("setcoord numer: $currentCoordsIndex");
+  }
 
   void stopScan() async {
     timer.cancel();
@@ -106,7 +124,9 @@ class ScanBluetoothManager {
         signal: results[i].rssi.toString(),
       );
 
-      scanResults.add(logSignal);
+      print("scan signals numer: $currentCoordsIndex");
+      scanResults[currentCoordsIndex].data.add(logSignal);
+      print("dlugosc scanResults: ${scanResults.length}");
 
       if (listener != null) {
         listener!(logSignal);
@@ -121,6 +141,7 @@ class ScanBluetoothManager {
   }
 
   void saveBluetoothScan() {
+    print(scanResults.length);
     _fileManager.saveLogFile(
       scanType: "bluetooth",
       data: jsonEncode(LogSignalModel(

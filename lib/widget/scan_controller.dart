@@ -11,10 +11,12 @@ class ScanController extends StatefulWidget {
   const ScanController({
     required this.onPressedSecond,
     required this.coordinates,
+    required this.passCoordinates,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressedSecond;
+  final Function passCoordinates;
   final List<List<int>> coordinates;
 
   @override
@@ -31,6 +33,7 @@ class _ScanControllerState extends State<ScanController> {
   @override
   void initState() {
     startTimer();
+    widget.passCoordinates(widget.coordinates[0]);
     super.initState();
   }
 
@@ -84,6 +87,7 @@ class _ScanControllerState extends State<ScanController> {
                     setState(() {
                       cordIndex += 1;
                     });
+                    widget.passCoordinates(widget.coordinates[cordIndex]);
                   } else {
                     _snackBar.displaySnackBar(
                       context: context,

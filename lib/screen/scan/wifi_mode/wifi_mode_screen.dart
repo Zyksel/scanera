@@ -74,6 +74,8 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
                                 )
                               : widget.scanController.stopScan();
                         },
+                        passCoordinates:
+                            widget.scanController.setCurrentCoordinates,
                         coordinates: controller.state.coordinates,
                       ),
                     ),

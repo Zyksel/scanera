@@ -4,19 +4,37 @@ import 'package:scanera/model/scan_model.dart';
 
 class LogSignalModel implements ScanModel {
   final String time;
-  final List<SignalDataModel> data;
+  final List<IndexedSignalDataModel> data;
 
   LogSignalModel({
     required this.time,
     required this.data,
   });
 
+  @override
   Map<String, dynamic> toJson() {
     List<Map> coordsJson = data.map((i) => i.toJson()).toList();
 
     return {
-      "time": time,
-      "data": coordsJson,
+      time: coordsJson,
+    };
+  }
+}
+
+class IndexedSignalDataModel {
+  final String coordinates;
+  final List<SignalDataModel> data;
+
+  IndexedSignalDataModel({
+    required this.coordinates,
+    required this.data,
+  });
+
+  Map<String, dynamic> toJson() {
+    List<Map> resultsJson = data.map((i) => i.toJson()).toList();
+
+    return {
+      coordinates: resultsJson,
     };
   }
 }

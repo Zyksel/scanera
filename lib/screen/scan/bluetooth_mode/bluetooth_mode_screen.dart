@@ -66,6 +66,8 @@ class _BluetoothModeScreenState extends State<BluetoothModeScreen> {
                                 )
                               : widget.scanController.stopScan();
                         },
+                        passCoordinates:
+                            widget.scanController.setCurrentCoordinates,
                         coordinates: controller.state.coordinates,
                       ),
                     ),

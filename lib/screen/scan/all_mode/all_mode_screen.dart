@@ -70,6 +70,7 @@ class _AllModeScreenState extends State<AllModeScreen> {
                 onPressedSecond: () {
                   isScanning ? stopAllScan() : resumeAllScan();
                 },
+                passCoordinates: widget.scanAllManager.setCurrentCoordinates,
                 coordinates: controller.state.coordinates,
               ),
             ),

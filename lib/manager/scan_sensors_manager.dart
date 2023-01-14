@@ -25,18 +25,32 @@ class ScanSensorsManager {
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
 
-  List<SensorDataModel> scanResults = [];
+  List<IndexedSensorDataModel> scanResults = [];
 
   final FileManager _fileManager = FileManager();
 
   bool isScanning = false;
   late Timer timer;
+  late String currentCoords;
+
+  int currentCoordsIndex = -1;
 
   ScanSensorsManager(
     this.listener,
   );
 
   final Function? listener;
+
+  void setCurrentCoordinates(List<int> coords) {
+    currentCoords = "${coords[0]}:${coords[1]}";
+    scanResults.add(
+      IndexedSensorDataModel(
+        coordinates: currentCoords,
+        data: [],
+      ),
+    );
+    currentCoordsIndex += 1;
+  }
 
   List<String> getAccelerometerValues() {
     return mapValues(
@@ -146,10 +160,13 @@ class ScanSensorsManager {
   }
 
   void dispose() {
+    timer.cancel();
+
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
     }
     _streamSubscriptions = [];
+    scanResults = [];
 
     _logger.fine('[ℹ️] Sensors scan end');
   }
@@ -157,35 +174,35 @@ class ScanSensorsManager {
   void saveScanResults() {
     final now = DateTime.now();
 
-    scanResults.add(
-      SensorDataModel(
-        type: "magnetomer",
-        time: now.toString(),
-        x: _magnetometerValues[0].toString(),
-        y: _magnetometerValues[1].toString(),
-        z: _magnetometerValues[2].toString(),
-      ),
-    );
+    scanResults[currentCoordsIndex].data.add(
+          SensorDataModel(
+            type: "magnetomer",
+            time: now.toString(),
+            x: _magnetometerValues[0].toString(),
+            y: _magnetometerValues[1].toString(),
+            z: _magnetometerValues[2].toString(),
+          ),
+        );
 
-    scanResults.add(
-      SensorDataModel(
-        type: "accelerometer",
-        time: now.toString(),
-        x: _accelerometerValues[0].toString(),
-        y: _accelerometerValues[1].toString(),
-        z: _accelerometerValues[2].toString(),
-      ),
-    );
+    scanResults[currentCoordsIndex].data.add(
+          SensorDataModel(
+            type: "accelerometer",
+            time: now.toString(),
+            x: _accelerometerValues[0].toString(),
+            y: _accelerometerValues[1].toString(),
+            z: _accelerometerValues[2].toString(),
+          ),
+        );
 
-    scanResults.add(
-      SensorDataModel(
-        type: "gyroscope",
-        time: now.toString(),
-        x: _gyroscopeValues[0].toString(),
-        y: _gyroscopeValues[1].toString(),
-        z: _gyroscopeValues[2].toString(),
-      ),
-    );
+    scanResults[currentCoordsIndex].data.add(
+          SensorDataModel(
+            type: "gyroscope",
+            time: now.toString(),
+            x: _gyroscopeValues[0].toString(),
+            y: _gyroscopeValues[1].toString(),
+            z: _gyroscopeValues[2].toString(),
+          ),
+        );
   }
 
   void saveSensorsScan() {

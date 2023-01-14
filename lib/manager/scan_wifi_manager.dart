@@ -15,8 +15,12 @@ import 'package:wifi_hunter/wifi_hunter_result.dart';
 class ScanWifiManager {
   bool isScanning = false;
   late Timer timer;
+  late String currentCoords;
+
+  /// on fix loading screen change to -1 and delete if condition in setCurrentCoordinates
+  int currentCoordsIndex = -2;
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
-  List<SignalDataModel> scanResults = [];
+  List<IndexedSignalDataModel> scanResults = [];
   final _logger = Logger('WifiScan');
   final FileManager _fileManager = FileManager();
 
@@ -25,6 +29,19 @@ class ScanWifiManager {
   );
 
   final Function? listener;
+
+  void setCurrentCoordinates(List<int> coords) {
+    currentCoords = "${coords[0]}:${coords[1]}";
+    if (currentCoordsIndex != -2) {
+      scanResults.add(
+        IndexedSignalDataModel(
+          coordinates: currentCoords,
+          data: [],
+        ),
+      );
+    }
+    currentCoordsIndex += 1;
+  }
 
   void stopScan() async {
     timer.cancel();
@@ -140,7 +157,8 @@ class ScanWifiManager {
         signal: result.results[i].level.toString(),
       );
 
-      scanResults.add(logSignal);
+      scanResults[currentCoordsIndex].data.add(logSignal);
+
       if (listener != null) {
         listener!(logSignal);
       }

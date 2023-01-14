@@ -2,7 +2,7 @@ import 'package:scanera/model/scan_model.dart';
 
 class LogSensorModel {
   final String time;
-  final List<SensorDataModel> data;
+  final List<IndexedSensorDataModel> data;
 
   LogSensorModel({
     required this.time,
@@ -13,8 +13,25 @@ class LogSensorModel {
     List<Map> coordsJson = data.map((i) => i.toJson()).toList();
 
     return {
-      "time": time,
-      "data": coordsJson,
+      time: coordsJson,
+    };
+  }
+}
+
+class IndexedSensorDataModel {
+  final String coordinates;
+  final List<SensorDataModel> data;
+
+  IndexedSensorDataModel({
+    required this.coordinates,
+    required this.data,
+  });
+
+  Map<String, dynamic> toJson() {
+    List<Map> resultsJson = data.map((i) => i.toJson()).toList();
+
+    return {
+      coordinates: resultsJson,
     };
   }
 }

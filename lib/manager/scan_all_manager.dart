@@ -20,11 +20,16 @@ class ScanAllManager extends ChangeNotifier {
 
   List<String> logs = [];
   List<ScanModel> scanResults = [];
+  late String currentCoords;
   final FileManager _fileManager = FileManager();
   late final ScanBluetoothManager scanBluetoothManager;
   late final ScanWifiManager scanWifiManager;
   late final ScanSensorsManager scanSensorsManager;
   late Function notifier;
+
+  void setCurrentCoordinates(List<int> coords) {
+    currentCoords = "${coords[0]}:${coords[1]}";
+  }
 
   void receiveWifiData(SignalDataModel model) {
     displayData("[WIFI] ${model.SSID} with signal ${model.signal}");
