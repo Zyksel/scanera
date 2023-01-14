@@ -20,7 +20,7 @@ class SnackBarMessage {
         vertical: 10,
       ),
       duration: const Duration(
-        seconds: 10,
+        seconds: 3,
       ),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
