@@ -80,6 +80,12 @@ class ScanSensorsManager {
         .toList();
   }
 
+  List<String> mapValuesToString({
+    required List<double> values,
+  }) {
+    return values.map((double v) => v.toString()).toList();
+  }
+
   void startScan() async {
     isScanning = true;
 
@@ -151,9 +157,9 @@ class ScanSensorsManager {
   }
 
   void sendResults() {
-    final magnetometer = getMagnetometerValues();
-    final accelerometer = getAccelerometerValues();
-    final gyroscope = getGyroscopeValues();
+    final magnetometer = mapValuesToString(values: _magnetometerValues);
+    final accelerometer = mapValuesToString(values: _accelerometerValues);
+    final gyroscope = mapValuesToString(values: _gyroscopeValues);
 
     listener!(magnetometer, accelerometer, gyroscope);
   }

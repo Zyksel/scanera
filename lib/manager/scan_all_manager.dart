@@ -49,6 +49,14 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(model);
   }
 
+  List<String> mapValues({
+    required List<String> values,
+  }) {
+    return values
+        .map((String v) => v.length > 3 ? v.substring(0, 4) : v)
+        .toList();
+  }
+
   void receiveSensorsData(
     List<String> accelerometer,
     List<String> magnetometer,
@@ -57,7 +65,7 @@ class ScanAllManager extends ChangeNotifier {
     final now = DateTime.now();
 
     displayData(
-      "[SENSORS] [ACCELEROMETER] $accelerometer [MAGNETOMETER] $magnetometer [GYROSCOPE] $gyroscope",
+      "[SENSORS] [ACCELEROMETER] ${mapValues(values: accelerometer)} [MAGNETOMETER] ${mapValues(values: magnetometer)} [GYROSCOPE] ${mapValues(values: gyroscope)}",
     );
 
     scanResults[currentCoordsIndex].data.add(
