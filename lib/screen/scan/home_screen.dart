@@ -165,7 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await [
         Permission.location,
-        Permission.storage,
         Permission.bluetoothScan,
       ].request();
     });
