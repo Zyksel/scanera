@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scanera/manager/scan_all_manager.dart';
@@ -76,7 +78,7 @@ class _AllModeScreenState extends State<AllModeScreen> {
             ),
             Expanded(
               child: ChangeNotifierProvider(
-                create: (_) => ScanAllManager(),
+                create: (_) => ScanAllManager(isIOS: Platform.isIOS),
                 child: Consumer<ScanAllManager>(builder: (_, controller, ___) {
                   return ListView.builder(
                     padding: const EdgeInsets.all(8),

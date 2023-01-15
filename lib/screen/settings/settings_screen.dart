@@ -195,6 +195,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void shareFiles() async {
     final logFiles = await _fileManager.getLogsFiles();
 
+    if (logFiles.isEmpty) {
+      _snackBar.displaySnackBar(
+          context: context, message: "You have no logs to share!");
+      return;
+    }
+
     List<XFile> files = [];
 
     for (var element in logFiles) {

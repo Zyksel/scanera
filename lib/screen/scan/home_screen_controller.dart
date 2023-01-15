@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -33,7 +34,7 @@ class HomeController extends ChangeNotifier {
   final ScanSensorsManager scanSensorsController = ScanSensorsManager(null);
   final ScanBluetoothManager scanBluetoothController =
       ScanBluetoothManager(null);
-  final ScanAllManager scanAllManager = ScanAllManager();
+  final ScanAllManager scanAllManager = ScanAllManager(isIOS: Platform.isIOS);
 
   HomeController() {
     fetchConfigs();

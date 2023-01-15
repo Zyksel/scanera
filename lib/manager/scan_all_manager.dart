@@ -12,9 +12,11 @@ import 'package:scanera/util/app_date_formatters.dart';
 import 'package:scanera/util/contants.dart';
 
 class ScanAllManager extends ChangeNotifier {
-  ScanAllManager() {
+  ScanAllManager({
+    required this.isIOS,
+  }) {
     scanBluetoothManager = ScanBluetoothManager(receiveBluetoothData);
-    scanWifiManager = ScanWifiManager(receiveWifiData);
+    if (!isIOS) scanWifiManager = ScanWifiManager(receiveWifiData);
     scanSensorsManager = ScanSensorsManager(receiveSensorsData);
   }
 
@@ -27,6 +29,7 @@ class ScanAllManager extends ChangeNotifier {
   late final ScanWifiManager scanWifiManager;
   late final ScanSensorsManager scanSensorsManager;
   late Function notifier;
+  final bool isIOS;
 
   void setCurrentCoordinates(List<int> coords) {
     currentCoords = "${coords[0]}:${coords[1]}";
@@ -113,6 +116,8 @@ class ScanAllManager extends ChangeNotifier {
       interval: kBluetoothScanInterval,
     );
     displayData("[BLUETOOTH] scan initialized");
+
+    if (isIOS) return;
     scanWifiManager.startScan(
       context: context,
       interval: kWifiScanInterval,
@@ -123,6 +128,8 @@ class ScanAllManager extends ChangeNotifier {
   void stopAllScan() {
     scanSensorsManager.stopScan();
     scanBluetoothManager.stopScan();
+
+    if (isIOS) return;
     scanWifiManager.stopScan();
   }
 
@@ -134,6 +141,8 @@ class ScanAllManager extends ChangeNotifier {
       context: context,
       interval: kBluetoothScanInterval,
     );
+
+    if (isIOS) return;
     scanWifiManager.resumeScan(
       context: context,
       interval: kWifiScanInterval,
