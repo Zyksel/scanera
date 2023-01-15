@@ -67,17 +67,17 @@ class HomeController extends ChangeNotifier {
       case 1:
         scanSensorsController.stopScan();
         if (result) scanSensorsController.saveSensorsScan();
-        scanAllManager.resetData();
+        scanSensorsController.resetData();
         break;
       case 2:
         scanBluetoothController.stopScan();
         if (result) scanBluetoothController.saveBluetoothScan();
-        scanAllManager.resetData();
+        scanBluetoothController.resetData();
         break;
       case 3:
         scanWifiController.stopScan();
         if (result) scanWifiController.saveWifiScan();
-        scanAllManager.resetData();
+        scanWifiController.resetData();
         break;
     }
   }

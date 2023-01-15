@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:scanera/util/app_date_formatters.dart';
 
 final _levelEmojiMapper = {
   Level.CONFIG: '⚙️',
@@ -11,7 +12,8 @@ final _levelEmojiMapper = {
   Level.SEVERE: '🚨',
 };
 
-String _getLogRecordPrintMessage(LogRecord record) => '${record.time} '
+String _getLogRecordPrintMessage(LogRecord record) =>
+    '${AppDateFormatters.hourMinuteSecond.format(record.time)} '
     '[${_levelEmojiMapper[record.level] ?? record.level.name}] '
     '[${record.loggerName}] '
     '${record.message} ';

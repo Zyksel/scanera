@@ -81,7 +81,7 @@ class ScanSensorsManager {
   }
 
   void startScan() async {
-    isScanning = !isScanning;
+    isScanning = true;
 
     _logger.fine('[ℹ️] Sensors listening started');
 
@@ -122,16 +122,14 @@ class ScanSensorsManager {
   }
 
   void stopScan() async {
-    if (listener != null) {
-      timer.cancel();
-    }
+    timer.cancel();
 
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
     }
     _streamSubscriptions = [];
 
-    isScanning = !isScanning;
+    isScanning = false;
 
     _logger.fine('[ℹ️] Sensors listening stopped');
   }
@@ -174,6 +172,8 @@ class ScanSensorsManager {
 
   void saveScanResults() {
     final now = DateTime.now();
+
+    if (!isScanning) return;
 
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
@@ -220,7 +220,20 @@ class ScanSensorsManager {
 
   void resetData() {
     scanResults.clear();
-    currentCoordsIndex = -2;
+    currentCoordsIndex = -1;
     isScanning = false;
+    accList = 0;
+    gyroList = 0;
+    magneList = 0;
+
+    _accelerometerValues = [0, 0, 0];
+    _gyroscopeValues = [0, 0, 0];
+    _magnetometerValues = [0, 0, 0];
+
+    accelerometerValues.clear();
+    gyroscopeValues.clear();
+    magnetometerValues.clear();
+
+    _streamSubscriptions.clear();
   }
 }

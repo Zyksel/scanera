@@ -68,11 +68,11 @@ class _WifiModeScreenState extends State<WifiModeScreen> {
                       builder: (_, controller, ___) => ScanController(
                         onPressedSecond: () {
                           widget.scanController.isScanning
-                              ? widget.scanController.resumeScan(
+                              ? widget.scanController.stopScan()
+                              : widget.scanController.resumeScan(
                                   context: context,
                                   interval: kWifiScanInterval,
-                                )
-                              : widget.scanController.stopScan();
+                                );
                         },
                         passCoordinates:
                             widget.scanController.setCurrentCoordinates,
