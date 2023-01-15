@@ -197,7 +197,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (logFiles.isEmpty) {
       _snackBar.displaySnackBar(
-          context: context, message: "You have no logs to share!");
+        context: context,
+        message: context.strings.settingsSnackBarShareNoFilesFoundMessage,
+      );
       return;
     }
 

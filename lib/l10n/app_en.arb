@@ -80,6 +80,7 @@
          }
       }
     },
+    "settingsSnackBarShareNoFilesFoundMessage": "You have no logs to share!",
     "settingsSnackBarLogEraseNotFoundMessage": "You do not have any log files!",
     "settingsSnackBarConfigEraseSuccessMessage": "{number} config files deleted!",
     "@settingsSnackBarConfigEraseSuccessMessage": {
