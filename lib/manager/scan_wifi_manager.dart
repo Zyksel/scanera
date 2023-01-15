@@ -187,4 +187,10 @@ class ScanWifiManager {
       )),
     );
   }
+
+  void resetData() {
+    scanResults.clear();
+    currentCoordsIndex = -2;
+    isScanning = false;
+  }
 }

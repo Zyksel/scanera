@@ -140,7 +140,6 @@ class ScanBluetoothManager {
   }
 
   void saveBluetoothScan() {
-    print(scanResults.length);
     _fileManager.saveLogFile(
       scanType: "bluetooth",
       data: jsonEncode(LogSignalModel(
@@ -150,5 +149,11 @@ class ScanBluetoothManager {
         data: scanResults,
       )),
     );
+  }
+
+  void resetData() {
+    scanResults.clear();
+    currentCoordsIndex = -2;
+    isScanning = false;
   }
 }

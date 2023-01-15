@@ -139,20 +139,21 @@ class ScanAllManager extends ChangeNotifier {
     notifier();
   }
 
-  void saveSensorsScan(bool result) {
-    if (result) {
-      _fileManager.saveLogFile(
-        scanType: "all",
-        data: jsonEncode(LogAllScanModel(
-          time: AppDateFormatters.dayMonthYearWithTime
-              .format(DateTime.now())
-              .toString(),
-          data: scanResults,
-        )),
-      );
-    }
+  void saveSensorsScan() {
+    _fileManager.saveLogFile(
+      scanType: "all",
+      data: jsonEncode(LogAllScanModel(
+        time: AppDateFormatters.dayMonthYearWithTime
+            .format(DateTime.now())
+            .toString(),
+        data: scanResults,
+      )),
+    );
+  }
 
-    scanResults = [];
-    logs = [];
+  void resetData() {
+    logs.clear();
+    scanResults.clear();
+    currentCoordsIndex = -1;
   }
 }
