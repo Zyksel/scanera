@@ -13,7 +13,7 @@ import 'package:scanera/manager/scan_wifi_manager.dart';
 import 'package:scanera/model/config_storage_model.dart';
 import 'package:scanera/screen/scan/all_mode/all_mode_screen.dart';
 import 'package:scanera/screen/scan/bluetooth_mode/bluetooth_mode_screen.dart';
-import 'package:scanera/screen/scan/empty_scan.dart';
+import 'package:scanera/screen/scan/empty_scan_screen.dart';
 import 'package:scanera/screen/scan/sensors_mode/sensors_mode_screen.dart';
 import 'package:scanera/screen/scan/wifi_mode/wifi_mode_screen.dart';
 
