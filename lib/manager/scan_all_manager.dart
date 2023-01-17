@@ -74,7 +74,9 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "accelerometer",
-            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
+            time: AppDateFormatters.hourMinuteSecondMillisecond
+                .format(now)
+                .toString(),
             x: accelerometer[0],
             y: accelerometer[1],
             z: accelerometer[2],
@@ -84,7 +86,9 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "magnetometer",
-            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
+            time: AppDateFormatters.hourMinuteSecondMillisecond
+                .format(now)
+                .toString(),
             x: magnetometer[0],
             y: magnetometer[1],
             z: magnetometer[2],
@@ -94,7 +98,9 @@ class ScanAllManager extends ChangeNotifier {
     scanResults[currentCoordsIndex].data.add(
           SensorDataModel(
             type: "gyroscope",
-            time: AppDateFormatters.hourMinuteSecond.format(now).toString(),
+            time: AppDateFormatters.hourMinuteSecondMillisecond
+                .format(now)
+                .toString(),
             x: gyroscope[0],
             y: gyroscope[1],
             z: gyroscope[2],

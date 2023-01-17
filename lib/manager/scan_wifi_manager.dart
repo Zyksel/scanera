@@ -154,7 +154,7 @@ class ScanWifiManager {
 
       final logSignal = SignalDataModel(
         type: "wifi",
-        time: AppDateFormatters.hourMinuteSecond
+        time: AppDateFormatters.hourMinuteSecondMillisecond
             .format(DateTime.now())
             .toString(),
         SSID:

@@ -108,7 +108,7 @@ class ScanBluetoothManager {
     final List<SignalModel> newSignals = [];
     for (var i = 0; i < results.length; i++) {
       final signal = SignalModel(
-        SSID: results[i].device.name == "" ? "Unkown" : results[i].device.name,
+        SSID: results[i].device.name == "" ? "Unknown" : results[i].device.name,
         BSSID: results[i].device.id.id,
         level: results[i].rssi,
       );
@@ -117,10 +117,10 @@ class ScanBluetoothManager {
 
       final logSignal = SignalDataModel(
         type: "bluetooth",
-        time: AppDateFormatters.hourMinuteSecond
+        time: AppDateFormatters.hourMinuteSecondMillisecond
             .format(DateTime.now())
             .toString(),
-        SSID: results[i].device.name == "" ? "Unkown" : results[i].device.name,
+        SSID: results[i].device.name == "" ? "Unknown" : results[i].device.name,
         BSID: results[i].device.id.id,
         signal: results[i].rssi.toString(),
       );

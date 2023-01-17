@@ -85,7 +85,9 @@ class ScanSensorsManager {
 
     scanResults[currentCoordsIndex].data.add(SensorDataModel(
           type: mode,
-          time: DateTime.now().toString(),
+          time: AppDateFormatters.hourMinuteSecondMillisecond
+              .format(DateTime.now())
+              .toString(),
           x: values[0].toString(),
           y: values[1].toString(),
           z: values[2].toString(),
