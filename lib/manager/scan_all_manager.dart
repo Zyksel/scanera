@@ -68,7 +68,7 @@ class ScanAllManager extends ChangeNotifier {
     final now = DateTime.now();
 
     displayData(
-      "[SENSORS] [ACCELEROMETER] ${mapValues(values: accelerometer)} [MAGNETOMETER] ${mapValues(values: magnetometer)} [GYROSCOPE] ${mapValues(values: gyroscope)}",
+      "[SENSORS]\n[ACCELEROMETER] ${mapValues(values: accelerometer)}\n[MAGNETOMETER] ${mapValues(values: magnetometer)}\n[GYROSCOPE] ${mapValues(values: gyroscope)}",
     );
 
     scanResults[currentCoordsIndex].data.add(
@@ -109,28 +109,28 @@ class ScanAllManager extends ChangeNotifier {
   void startAllScan({
     required BuildContext context,
   }) {
-    scanSensorsManager.startScan();
-    displayData("[SENSORS] scan initialized");
     scanBluetoothManager.startScan(
       context: context,
       interval: kBluetoothScanInterval,
     );
     displayData("[BLUETOOTH] scan initialized");
 
-    if (isIOS) return;
-    scanWifiManager.startScan(
-      context: context,
-      interval: kWifiScanInterval,
-    );
-    displayData("[WIFI] scan initialized");
+    if (!isIOS) {
+      scanWifiManager.startScan(
+        context: context,
+        interval: kWifiScanInterval,
+      );
+      displayData("[WIFI] scan initialized");
+    }
+
+    displayData("[SENSORS] scan initialized");
+    scanSensorsManager.startScan();
   }
 
   void stopAllScan() {
-    scanSensorsManager.stopScan();
     scanBluetoothManager.stopScan();
-
-    if (isIOS) return;
-    scanWifiManager.stopScan();
+    if (!isIOS) scanWifiManager.stopScan();
+    scanSensorsManager.stopScan();
   }
 
   void resumeAllScan({
