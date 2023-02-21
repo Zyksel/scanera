@@ -8,7 +8,7 @@ extension ContextExt on BuildContext {
 
   Locale get locale => Localizations.localeOf(this);
 
-  double systemFooterHeight() {
+  double get systemFooterHeight {
     final mediaQueryData = MediaQuery.of(this);
 
     final viewPadding = mediaQueryData.viewPadding;
@@ -19,5 +19,5 @@ extension ContextExt on BuildContext {
   }
 
   EdgeInsetsGeometry systemFooterPadding() =>
-      EdgeInsets.only(bottom: systemFooterHeight());
+      EdgeInsets.only(bottom: systemFooterHeight);
 }

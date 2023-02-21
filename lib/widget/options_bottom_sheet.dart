@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scanera/ext/context_ext.dart';
 import 'package:scanera/theme/color/app_colors.dart';
 import 'package:scanera/theme/text/app_typography.dart';
 
@@ -66,8 +67,8 @@ class _OptionsBottomSheetState extends State<OptionsBottomSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: context.systemFooterHeight,
                 )
               ],
             ),
