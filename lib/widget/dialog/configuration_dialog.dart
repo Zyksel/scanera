@@ -23,8 +23,6 @@ class _ConfigDialogState extends State<ConfigDialog> {
   final FileManager _fileManager = FileManager();
   bool visible = true;
 
-  /// TODO: IMPROVE THIS IMPLEMENTATION
-
   @override
   Widget build(BuildContext cxt) {
     return ChangeNotifierProvider(

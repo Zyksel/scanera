@@ -55,9 +55,7 @@ class DependencyInjectionImpl implements DependencyInjection {
       '$runtimeType is not initialized yet! Call, and await, init() first!',
     );
 
-    return [
-      // Provider.value(value: _getIt.get<FilesManager>()),
-    ];
+    return [];
   }
 }
 

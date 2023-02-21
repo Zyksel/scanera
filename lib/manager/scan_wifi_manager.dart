@@ -18,7 +18,6 @@ class ScanWifiManager {
   late Timer timer;
   late String currentCoords;
 
-  /// on fix loading screen change to -1 and delete if condition in setCurrentCoordinates
   int currentCoordsIndex = -2;
   WiFiHunterResult wiFiHunterResult = WiFiHunterResult();
   List<IndexedSignalDataModel> scanResults = [];
@@ -81,7 +80,6 @@ class ScanWifiManager {
     timer = Timer.periodic(interval, (_) async {
       await huntWiFis(context: context);
     });
-    // toggleScan();
   }
 
   Future<void> fetchWifi({

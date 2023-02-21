@@ -96,7 +96,6 @@ class _ScanControllerState extends State<ScanController> {
                     );
                   }
                 },
-                // isExpanded: true,
               ),
             ],
           ),
@@ -122,7 +121,6 @@ class _ScanControllerState extends State<ScanController> {
                     _isScanRunning = !_isScanRunning;
                   });
                 },
-                // isExpanded: true,
               ),
             ],
           ),
