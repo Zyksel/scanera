@@ -155,20 +155,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
-  connectivity_plus:
-    dependency: "direct main"
-    description:
-      name: connectivity_plus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.3"
-  connectivity_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: connectivity_plus_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.4"
   convert:
     dependency: transitive
     description:
@@ -204,13 +190,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
-  dbus:
-    dependency: transitive
-    description:
-      name: dbus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.8"
   dropdown_button2:
     dependency: "direct main"
     description:
@@ -518,13 +497,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  nm:
-    dependency: transitive
-    description:
-      name: nm
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
   package_config:
     dependency: transitive
     description:
@@ -696,9 +668,11 @@ packages:
   sensors_plus:
     dependency: "direct main"
     description:
-      name: sensors_plus
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/sensors_plus/sensors_plus"
+      ref: HEAD
+      resolved-ref: "9da779b38f59dbf465e6a94a1742a106c45c8f70"
+      url: "https://github.com/Zyksel/plus_plugins.git"
+    source: git
     version: "2.0.2"
   sensors_plus_platform_interface:
     dependency: transitive
